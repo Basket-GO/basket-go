@@ -1,11 +1,13 @@
 from turtle import heading, width
-import sys, pygame
+import pygame
 from game import Game
+from drag_event_listener import DragEventListener
 
 pygame.init()
 pygame.display.set_caption("Basket Go !")
 screen = pygame.display.set_mode((1024,640))
 game = Game(screen, None, "img/", None)
+game.listen(pygame.MOUSEMOTION, DragEventListener())
 game.setup()
 
 """size = width, height = 320, 240

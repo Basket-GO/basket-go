@@ -1,37 +1,89 @@
 import pygame
 import sys
 
+from event_listener import EventListener
+from element import Element
+
 class Game():
     def __init__(self, screen:pygame.Surface, players:list, img_location:str, sound_location:str) -> None:
         # get the actual display screen.
         self.__screen = screen
         # get the actuals players playing.
         self.__players = players
-        # get the actual background.
-        self.__background = pygame.image.load(img_location + "terrain_basket_sans_public.png")
-        self.__background = pygame.transform.scale(self.__background, (1024, 390))
-        self.__crow_arms_down = pygame.image.load(img_location + "terrain_basket_public_mains_baissees.png")
-        self.__crow_arms_down = pygame.transform.scale(self.__crow_arms_down, (1024, 250))
-        self.__ball = pygame.image.load(img_location + "basket-ball.png")
-        self.__ball = pygame.transform.scale(self.__ball, (70, 70))
+        # set up the events pair.
+        self.__events = []
+        # game elements (objects, background etc.)
+        self.__elements = []
+        # get the actual basket ball field.
+        field = pygame.image.load(img_location + "terrain_basket_sans_public.png")
+        field = pygame.transform.scale(field, (1024, 390))
+        # get the actual crow with the arms down.
+        crow_arms_down = pygame.image.load(img_location + "terrain_basket_public_mains_baissees.png")
+        crow_arms_down = pygame.transform.scale(crow_arms_down, (1024, 250))
+        # get the actual ball.
+        ball = pygame.image.load(img_location + "basket-ball.png")
+        ball = pygame.transform.scale(ball, (70, 70))
+        # register the field without public.
+        self.__register_element("field", Element(field, 0, 250))
+        # register the crow with arms down.
+        self.__register_element("crow_arms_down", Element(crow_arms_down, 0, 0))
+        # register the ball.
+        self.__register_element("ball", Element(ball, 30, 400))
     
+    def __register_element(self, key:str, element):
+        """
+        Register a game element into the cache.
+        :param str key: the key to pair to the given element.
+        :param object element: the element to store.
+        """
+        self.__elements.append([key, element])
+
+    def get_element(self, key:str):
+        """
+        If present returns the element paired with the given key
+        else it raises RuntimeError.
+        :param str key: the key paired to the game element.
+        :return: the game element.
+        """
+        for element in self.__elements:
+            if element[0] == key:
+                return element[1]
+        raise RuntimeError("element not found for key: ", key)
+
     def setup(self):
         """
         Setup the ressources (background image, audio, etc.)
+        and listen to all the events built in the game.
         """
-        x,y = 30, 400
         while True:
-            self.__screen.blit(self.__background, (0, 250))
-            self.__screen.blit(self.__crow_arms_down, (0, 0))
-            self.__screen.blit(self.__ball, (x, y))
+            # loop through each elements.
+            for element in self.__elements:
+                # retrive the object.
+                obj = element[1]
+                self.__screen.blit(obj.get()[0], obj.get()[1])
             for event in pygame.event.get():
                 if event.type == pygame.QUIT:
                     sys.exit()
-                elif event.type == pygame.MOUSEMOTION and pygame.mouse.get_pressed()[0] == True:
-                    x = pygame.mouse.get_pos()[0] - 30
-                    y = pygame.mouse.get_pos()[1] - 30
-                    self.__screen.blit(self.__ball, (x, y))
+                # loop through each listeners.
+                for event_pair in self.__events:
+                    # compare the triggered event with the target event.
+                    if event_pair[0] == event.type:
+                        # run the event.
+                        event_pair[1].run(event, self)
             pygame.display.update()
+    def listen(self, event_type:int, event_listener:EventListener) -> None:
+        """
+        Takes in parameter an event to call and an event type to listen to.
+        Bind in pair the event type and the event to call.
+        :param int event_type: the event type to listen to.
+        :param EventListener event_listener: the event listener that will be called.
+        """
+        self.__events.append([event_type, event_listener])
     def end(self):
         pass
+    def get_screen(self):
+        """
+        Return game's screen.
+        """
+        return self.__screen
     
