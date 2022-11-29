@@ -1,25 +1,25 @@
-from turtle import heading, width
 import pygame
+
 from game import Game
 from drag_event_listener import DragEventListener
+from ball_release_event_listener import BallReleaseEventListener
 
+# init pygame.
 pygame.init()
-pygame.display.set_caption("Basket Go !")
+# load game icon.
+icon = pygame.image.load("img/basket-ball.png")
+# set game icon.
+pygame.display.set_icon(icon)
+# set game name.
+pygame.display.set_caption("ʙᴀsᴋᴇᴛ ɢᴏ !")
+# define window's size.
 screen = pygame.display.set_mode((1024,640))
-game = Game(screen, None, "img/", None)
+# create a new instance of the Game.
+game = Game(screen, "img/", None)
+# listen to events.
 game.listen(pygame.MOUSEMOTION, DragEventListener())
+game.listen(pygame.MOUSEBUTTONUP, BallReleaseEventListener())
+# register dummy player.
+game.register_player("Yanis")
+# setup the game.
 game.setup()
-
-"""size = width, height = 320, 240
-speed = [2, 2]
-black = 0, 0, 0
-
-screen = pygame.display.set_mode(size)
-
-ball = pygame.image.load("terrain_basket_-_sans_public.png")
-ballrect = ball.get_rect()
-
-while True:
-    for event in pygame.event.get():
-        if event.type == pygame.QUIT: sys.exit()
-        print(event.type)"""
