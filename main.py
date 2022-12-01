@@ -3,11 +3,10 @@ import pygame
 from game import Game
 from drag_event_listener import DragEventListener
 from ball_release_event_listener import BallReleaseEventListener
-
 # init pygame.
 pygame.init()
 # load game icon.
-icon = pygame.image.load("img/basket-ball.png")
+icon = pygame.image.load("img/Logo.png")
 # set game icon.
 pygame.display.set_icon(icon)
 # set game name.
