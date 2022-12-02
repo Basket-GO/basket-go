@@ -18,11 +18,9 @@ class Game():
         # game threads.
         self.__threads = []
         # get the actual basket ball field.
-        field = pygame.image.load(img_location + "terrain_basket_sans_public.png")
-        field = pygame.transform.scale(field, (1024, 390))
-        # get the actual crow with the arms down.
-        crow_arms_down = pygame.image.load(img_location + "terrain_basket_public_mains_baissees.png")
-        crow_arms_down = pygame.transform.scale(crow_arms_down, (1024, 250))
+        field = pygame.image.load(img_location + "terrain_basket_sans_public2.png")
+        field = pygame.transform.scale(field, (1024, 640))
+
         # get the actual ball.
         ball = pygame.image.load(img_location + "basket-ball.png")
         ball = pygame.transform.scale(ball, (70, 70))
@@ -30,13 +28,12 @@ class Game():
         placeholder_ball = pygame.image.load(img_location + "basket-ball-placeholder.png")
         placeholder_ball = pygame.transform.scale(placeholder_ball, (70, 70))
         # register the field without public.
-        self.register_element("field", Element(field, 0, 250))
-        # register the crow with arms down.
-        self.register_element("crow_arms_down", Element(crow_arms_down, 0, 0))
+        self.register_element("field", Element(field, 0, 0))
+
         # register the ball.
-        self.register_element("ball", Element(ball, 200, 400))
+        self.register_element("ball", Element(ball, 170, 450))
         # register the placeholder ball.
-        self.register_element("placeholder_ball", Element(placeholder_ball, 200, 400))
+        self.register_element("placeholder_ball", Element(placeholder_ball, 170, 450))
     def register_player(self, player_name:str) -> None:
         """
         Register a player by its name.
