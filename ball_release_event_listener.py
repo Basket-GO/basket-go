@@ -3,6 +3,7 @@ from game import Game
 from stoppable_thread import StoppableThread
 from vector import Vector
 from math import (ceil, atan, pi, cos, sin)
+from time import wait
 import pygame
 
 class BallReleaseEventListener(EventListener):
@@ -62,4 +63,4 @@ class BallReleaseEventListener(EventListener):
                 v.set_x(v.normalize() * cos(alpha) * 0.8)
                 v.set_y(v.normalize() * sin(alpha) * 0.8)
             #print(y)
-            pygame.time.wait(ceil(delta_time / 1000))
+            time.wait(ceil(delta_time / 1000))
