@@ -4,6 +4,7 @@ import sys
 from event_listener import EventListener
 from player import Player
 from element import Element
+from window import Window
 
 class Game():
     def __init__(self, screen:pygame.Surface, img_location:str, sound_location:str) -> None:
@@ -13,8 +14,8 @@ class Game():
         self.__players = []
         # set up the events pair.
         self.__events = []
-        # game elements (objects, background etc.)
-        self.__elements = []
+        # set up our window.
+        self.__window = Window()
         # game threads.
         self.__threads = []
         # get the actual basket ball field.
@@ -30,13 +31,18 @@ class Game():
         placeholder_ball = pygame.image.load(img_location + "basket-ball-placeholder.png")
         placeholder_ball = pygame.transform.scale(placeholder_ball, (70, 70))
         # register the field without public.
-        self.register_element("field", Element(field, 0, 250))
+        self.__window.register_element("field", Element(field, 0, 250))
         # register the crow with arms down.
-        self.register_element("crow_arms_down", Element(crow_arms_down, 0, 0))
+        self.__window.register_element("crow_arms_down", Element(crow_arms_down, 0, 0))
         # register the ball.
-        self.register_element("ball", Element(ball, 200, 400))
+        self.__window.register_element("ball", Element(ball, 200, 400))
         # register the placeholder ball.
-        self.register_element("placeholder_ball", Element(placeholder_ball, 200, 400))
+        self.__window.register_element("placeholder_ball", Element(placeholder_ball, 200, 400))
+    def get_window(self) -> Window:
+        """
+        :return: the game's window.
+        """
+        return self.__window
     def register_player(self, player_name:str) -> None:
         """
         Register a player by its name.
@@ -53,26 +59,6 @@ class Game():
         Register the given thread into a list.
         """
         self.__threads.append(thread)
-    def register_element(self, key:str, element):
-        """
-        Register a game element into the cache.
-        :param str key: the key to pair to the given element.
-        :param object element: the element to store.
-        """
-        self.__elements.append([key, element])
-
-    def get_element(self, key:str):
-        """
-        If present returns the element paired with the given key
-        else it raises RuntimeError.
-        :param str key: the key paired to the game element.
-        :return: the game element.
-        """
-        for element in self.__elements:
-            if element[0] == key:
-                return element[1]
-        raise RuntimeError("element not found for key: ", key)
-
     def setup(self):
         """
         Setup the ressources (background image, audio, etc.)
@@ -80,7 +66,7 @@ class Game():
         """
         while True:
             # loop through each elements.
-            for element in self.__elements:
+            for element in self.__window.get_elements():
                 # retrive the object.
                 obj = element[1]
                 if(obj.is_visible()):
