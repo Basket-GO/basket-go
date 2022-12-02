@@ -1,10 +1,13 @@
 import pygame
 import sys
 
-from event_listener import EventListener
 from player import Player
 from element import Element
 from window import Window
+
+from event_listener import EventListener
+from drag_event_listener import DragEventListener
+from ball_release_event_listener import BallReleaseEventListener
 
 class Game():
     def __init__(self, screen:pygame.Surface, img_location:str, sound_location:str) -> None:
@@ -38,6 +41,9 @@ class Game():
         self.__window.register_element("ball", Element(ball, 200, 400))
         # register the placeholder ball.
         self.__window.register_element("placeholder_ball", Element(placeholder_ball, 200, 400))
+        # listen to events.
+        self.listen(pygame.MOUSEMOTION, DragEventListener())
+        self.listen(pygame.MOUSEBUTTONUP, BallReleaseEventListener()) 
     def get_window(self) -> Window:
         """
         :return: the game's window.
