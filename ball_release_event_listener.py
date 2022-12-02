@@ -2,7 +2,7 @@ from event_listener import EventListener
 from game import Game
 from stoppable_thread import StoppableThread
 from vector import Vector
-from math import (ceil, atan, pi, cos, sin)
+from math import (ceil, atan, cos, sin)
 import pygame
 
 class BallReleaseEventListener(EventListener):
