@@ -18,7 +18,7 @@ class Player():
         font = pygame.font.Font('freesansbold.ttf', 32)
         text = font.render(str(self.__score), True, (255, 255, 255), None)
         # register the game element.
-        self.__game.register_element("player_" + self.__name + "_score", Element(text, 512, 0))
+        self.__game.get_window().register_element("player_" + self.__name + "_score", Element(text, 512, 10))
     def get_name(self) -> str:
         """
         :return: str: player's name.
