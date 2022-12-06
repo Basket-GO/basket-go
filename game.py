@@ -10,7 +10,7 @@ from drag_event_listener import DragEventListener
 from ball_release_event_listener import BallReleaseEventListener
 
 class Game():
-    def __init__(self, screen:pygame.Surface, img_location:str, sound_location:str) -> None:
+    def __init__(self, screen:pygame.Surface, img_location:str, img_name: str, sound_location:str) -> None:
         # get the actual display screen.
         self.__screen = screen
         # set up playing players.
@@ -23,24 +23,17 @@ class Game():
         self.__threads = []
         # get the actual basket ball field.
         field = pygame.image.load(img_location + "terrain_basket_sans_public.png")
-        field = pygame.transform.scale(field, (1024, 390))
-        # get the actual crow with the arms down.
-        crow_arms_down = pygame.image.load(img_location + "terrain_basket_public_mains_baissees.png")
-        crow_arms_down = pygame.transform.scale(crow_arms_down, (1024, 250))
+        field = pygame.transform.scale(field, (1024, 640))
         # get the actual ball.
-        ball = pygame.image.load(img_location + "basket-ball.png")
-        ball = pygame.transform.scale(ball, (70, 70))
+        ball = pygame.image.load(img_location + img_name+".png")
         # get the placeholder ball.
-        placeholder_ball = pygame.image.load(img_location + "basket-ball-placeholder.png")
-        placeholder_ball = pygame.transform.scale(placeholder_ball, (70, 70))
+        placeholder_ball = pygame.image.load(img_location + img_name+"-placeholder.png")
         # register the field without public.
-        self.__window.register_element("field", Element(field, 0, 250))
-        # register the crow with arms down.
-        self.__window.register_element("crow_arms_down", Element(crow_arms_down, 0, 0))
+        self.register_element("field", Element(field, 0, 0))
         # register the ball.
-        self.__window.register_element("ball", Element(ball, 200, 400))
+        self.register_element("ball", Element(ball, 170, 450))
         # register the placeholder ball.
-        self.__window.register_element("placeholder_ball", Element(placeholder_ball, 200, 400))
+        self.register_element("placeholder_ball", Element(placeholder_ball, 170, 450))
         # listen to events.
         self.listen(pygame.MOUSEMOTION, DragEventListener())
         self.listen(pygame.MOUSEBUTTONUP, BallReleaseEventListener()) 
