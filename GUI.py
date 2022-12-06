@@ -13,7 +13,7 @@ pygame.display.set_caption("ʙᴀsᴋᴇᴛ ɢᴏ !")
 # define window's size.
 window = pygame.display.set_mode((1024,640))
 fond = pygame.image.load('img/bg.png')
-window.blit(fond, (-110,-20))
+window.blit(fond, (0,0))
 #load button images
 start_img = pygame.image.load('img/start_btn.png').convert_alpha()
 exit_img = pygame.image.load('img/exit_btn.png').convert_alpha()

@@ -1,5 +1,5 @@
 import pygame
-
+import random
 from game import Game
 from drag_event_listener import DragEventListener
 from ball_release_event_listener import BallReleaseEventListener
@@ -13,8 +13,11 @@ pygame.display.set_icon(icon)
 pygame.display.set_caption("ʙᴀsᴋᴇᴛ ɢᴏ !")
 # define window's size.
 screen = pygame.display.set_mode((1024,640))
+image = ["flame","mountains","pink","basket-ball","smile","military"]
+i = random.randint(0,5)
+
 # create a new instance of the Game.
-game = Game(screen, "img/", None)
+game = Game(screen, "img/",image[i], None)
 # listen to events.
 game.listen(pygame.MOUSEMOTION, DragEventListener())
 game.listen(pygame.MOUSEBUTTONUP, BallReleaseEventListener())
