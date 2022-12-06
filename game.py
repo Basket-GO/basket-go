@@ -29,11 +29,11 @@ class Game():
         # get the placeholder ball.
         placeholder_ball = pygame.image.load(img_location + img_name+"-placeholder.png")
         # register the field without public.
-        self.register_element("field", Element(field, 0, 0))
+        self.get_window().register_element("field", Element(field, 0, 0))
         # register the ball.
-        self.register_element("ball", Element(ball, 170, 450))
+        self.get_window().register_element("ball", Element(ball, 170, 450))
         # register the placeholder ball.
-        self.register_element("placeholder_ball", Element(placeholder_ball, 170, 450))
+        self.get_window().register_element("placeholder_ball", Element(placeholder_ball, 170, 450))
         # listen to events.
         self.listen(pygame.MOUSEMOTION, DragEventListener())
         self.listen(pygame.MOUSEBUTTONUP, BallReleaseEventListener()) 
