@@ -12,9 +12,9 @@ class BallReleaseEventListener(EventListener):
     
     def run(self, event, game:Game):
         # retrieve the ball.
-        ball = game.get_element("ball")
+        ball = game.get_window().get_element("ball")
         # retrieve the placeholder ball.
-        placeholder_ball = game.get_element("placeholder_ball")
+        placeholder_ball = game.get_window().get_element("placeholder_ball")
         # check if the ball is at the same position
         if abs(ball.get_x() - ball.get_initial_x()) < 15 and abs(ball.get_y() - ball.get_initial_y()) < 15:
             return
@@ -31,7 +31,7 @@ class BallReleaseEventListener(EventListener):
         Makes the ball move.
         """
         # retrieve the ball.
-        ball = game.get_element("ball")
+        ball = game.get_window().get_element("ball")
         # define a delta time.
         delta_time = 0.01
         # get the width and the height of the window.
