@@ -1,16 +1,15 @@
 from event_listener import EventListener
-from game import Game
 from stoppable_thread import StoppableThread
 from vector import Vector
-from math import (ceil, atan, pi, cos, sin)
-from time import (sleep, time)
+from math import (atan, cos, sin)
+from time import time
 import pygame
 
 class BallReleaseEventListener(EventListener):
     def __init__(self) -> None:
         super().__init__()
     
-    def run(self, event, game:Game):
+    def run(self, event, game):
         # retrieve the ball.
         ball = game.get_window().get_element("ball")
         # retrieve the placeholder ball.
@@ -26,7 +25,7 @@ class BallReleaseEventListener(EventListener):
         game.register_thread(self.__t)
         # start the thread execution.
         self.__t.start()
-    def __move_ball(self, game:Game):
+    def __move_ball(self, game):
         """
         Makes the ball move.
         """
