@@ -1,5 +1,4 @@
 from event_listener import EventListener
-from game import Game
 import pygame
 
 class DragEventListener(EventListener):
@@ -8,7 +7,7 @@ class DragEventListener(EventListener):
         self.__white_dot = pygame.image.load("img/white_dot.png")
         self.__white_dot = pygame.transform.scale(self.__white_dot, (20, 20))
     
-    def run(self, event, game:Game):
+    def run(self, event, game):
         if pygame.mouse.get_pressed()[0] == True:
             # retrieve the ball.
             ball = game.get_window().get_element("ball")
