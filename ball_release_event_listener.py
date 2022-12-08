@@ -15,10 +15,14 @@ class BallReleaseEventListener(EventListener):
         # retrieve the placeholder ball.
         placeholder_ball = game.get_window().get_element("placeholder_ball")
         # check if the ball is at the same position
-        if abs(ball.get_x() - ball.get_initial_x()) < 15 and abs(ball.get_y() - ball.get_initial_y()) < 15:
+        if abs(ball.get_x() - ball.get_initial_x()) < 15 and abs(ball.get_y() - ball.get_initial_y()) < 15 or ball.is_released():
             return
+        ball.set_released(True)
         # disable ball.
         placeholder_ball.set_visible(False)
+        # clear dots.
+        for i in range(20):
+            game.get_window().remove_element(("dot_",str(i)))
         # launch new thread.
         self.__t = StoppableThread(target=self.__move_ball, args=(game,))
         # register the thread in order to be able to kill it.
