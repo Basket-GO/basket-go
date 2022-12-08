@@ -1,13 +1,14 @@
 from pygame import Surface
 
 class Element():
-    def __init__(self, surface:Surface, x:int, y:int, visible:bool=True) -> None:
+    def __init__(self, surface:Surface, x:int, y:int, visible:bool=True, allow_override:bool=False) -> None:
         self.__surface = surface
         # those are the inital x and y coordinates. (those coordinates are immutable)
         self.__ix, self.__iy = x, y
         # those are the mutable x and y coordinates.
         self.__x, self.__y = x, y
         self.__visible = visible
+        self.__allow_override = allow_override
         pass
     def get(self) -> tuple:
         """
@@ -44,6 +45,12 @@ class Element():
         :return: the element surface.
         """
         return self.__surface
+    def allow_override(self):
+        """
+        :return: whether the element can be overrident or not.
+        (another element can erase this one.)
+        """
+        return self.__allow_override
     def is_visible(self):
         """
         :return: whether the element is visible or not. (Note it can still interact.)

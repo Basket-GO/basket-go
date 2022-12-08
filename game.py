@@ -4,6 +4,7 @@ import sys
 from player import Player
 from element import Element
 from window import Window
+from ball import Ball
 
 from event_listener import EventListener
 from drag_event_listener import DragEventListener
@@ -21,6 +22,8 @@ class Game():
         self.__window = Window()
         # game threads.
         self.__threads = []
+        public = pygame.image.load("img/public.png")
+        public2 = pygame.image.load("img/public2.png")
         # get the actual basket ball field.
         field = pygame.image.load(img_location + "terrain_basket_sans_public.png")
         field = pygame.transform.scale(field, (1024, 640))
@@ -30,8 +33,10 @@ class Game():
         placeholder_ball = pygame.image.load(img_location + img_name+"-placeholder.png")
         # register the field without public.
         self.get_window().register_element("field", Element(field, 0, 0))
+        #self.get_window().register_element("public2", Element(public2, 0, 10))
+        self.get_window().register_element("public", Element(public, 0, 10))
         # register the ball.
-        self.get_window().register_element("ball", Element(ball, 170, 450))
+        self.get_window().register_element("ball", Ball(ball, 170, 450))
         # register the placeholder ball.
         self.get_window().register_element("placeholder_ball", Element(placeholder_ball, 170, 450))
         # listen to events.
@@ -68,7 +73,7 @@ class Game():
             for element in self.__window.get_elements():
                 # retrive the object.
                 obj = element[1]
-                if(obj.is_visible()):
+                if obj != None and obj.is_visible():
                     self.__screen.blit(obj.get()[0], obj.get()[1])
             for event in pygame.event.get():
                 if event.type == pygame.QUIT:
