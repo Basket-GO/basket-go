@@ -15,15 +15,15 @@ window = pygame.display.set_mode((1024,640))
 fond = pygame.image.load('./img/bg.png')
 window.blit(fond, (0,0))
 #load button images
-start_img = pygame.image.load('./img/start_btn.png').convert_alpha()
-exit_img = pygame.image.load('./img/exit_btn.png').convert_alpha()
-start_img_hov = pygame.image.load('./img/start_btn_hover.png').convert_alpha()
-exit_img_hov = pygame.image.load('./img/exit_btn_hover.png').convert_alpha()
+start_img = pygame.image.load('./img/start_btn.png')
+exit_img = pygame.image.load('./img/exit_btn.png')
+start_img_hov = pygame.image.load('./img/start_btn_hover.png')
+exit_img_hov = pygame.image.load('./img/exit_btn_hover.png')
 #create button instances
-start_button = button.Button(397, 390, start_img, 0.8)
-start2_button = button.Button(397, 390, start_img_hov, 0.8)
-exit_button = button.Button(412, 500, exit_img, 0.8)
-exit2_button = button.Button(412, 500, exit_img_hov, 0.8)
+start_button = button.Button(397, 390, start_img, 1)
+start2_button = button.Button(397, 390, start_img_hov, 1)
+exit_button = button.Button(412, 500, exit_img, 1)
+exit2_button = button.Button(412, 500, exit_img_hov, 1)
 
 # create a new instance of the Game.
 clock = pygame.time.Clock()
