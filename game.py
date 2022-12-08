@@ -4,6 +4,7 @@ import sys
 from player import Player
 from element import Element
 from window import Window
+from ball import Ball
 
 from event_listener import EventListener
 from drag_event_listener import DragEventListener
@@ -31,7 +32,7 @@ class Game():
         # register the field without public.
         self.get_window().register_element("field", Element(field, 0, 0))
         # register the ball.
-        self.get_window().register_element("ball", Element(ball, 170, 450))
+        self.get_window().register_element("ball", Ball(ball, 170, 450))
         # register the placeholder ball.
         self.get_window().register_element("placeholder_ball", Element(placeholder_ball, 170, 450))
         # listen to events.
@@ -68,7 +69,7 @@ class Game():
             for element in self.__window.get_elements():
                 # retrive the object.
                 obj = element[1]
-                if(obj.is_visible()):
+                if obj != None and obj.is_visible():
                     self.__screen.blit(obj.get()[0], obj.get()[1])
             for event in pygame.event.get():
                 if event.type == pygame.QUIT:
