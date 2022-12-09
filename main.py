@@ -24,8 +24,8 @@ exit_img_hov = pygame.image.load('./img/exit_btn_hover.png')
 #create button instances
 start_button = button.Button(397, 390, start_img, start_img_hov, 1)
 exit_button = button.Button(412, 500, exit_img, exit_img_hov, 1)
-
 clock = pygame.time.Clock()
+
 is_running = True
 press = False
 press2 = False
@@ -63,7 +63,6 @@ while is_running:
             #if K_DOWN is pressed moov cursor on button exit
             if event.scancode == 81 :
                 pygame.mouse.set_pos((513,547))
-
     pygame.display.update()
     clock.tick(60)
     

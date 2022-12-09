@@ -22,6 +22,8 @@ class Game():
         self.__window = Window()
         # game threads.
         self.__threads = []
+        self.clock = pygame.time.Clock()
+        self.fps = 150
         # get the actual basket ball field.
         field = pygame.image.load(img_location + "terrain_basket_public.png")
         field = pygame.transform.scale(field, (1024, 640))
@@ -61,12 +63,18 @@ class Game():
         Register the given thread into a list.
         """
         self.__threads.append(thread)
+    def display_fps(self):
+        """Show the program's FPS in the window handle."""
+        caption = "{} - FPS: {:.2f}".format("ʙᴀsᴋᴇᴛ ɢᴏ !", self.clock.get_fps())
+        pygame.display.set_caption(caption)
     def setup(self):
         """
         Setup the ressources (background image, audio, etc.)
         and listen to all the events built in the game.
         """
         while True:
+            self.clock.tick(self.fps)
+            self.display_fps()
             # loop through each elements.
             for element in self.__window.get_elements():
                 # retrive the object.

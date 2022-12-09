@@ -51,6 +51,7 @@ class BallReleaseEventListener(EventListener):
         # define our reference time.
         tr = time()
         # update x and y position.
+
         while True:
             if self.__t.stopped():
                 break
