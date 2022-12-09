@@ -1,14 +1,14 @@
 import pygame
 import sys
 
-from player import Player
+from components.player import Player
 from element import Element
-from window import Window
-from ball import Ball
+from interface.window import Window
+from components.ball import Ball
 
-from event_listener import EventListener
-from drag_event_listener import DragEventListener
-from ball_release_event_listener import BallReleaseEventListener
+from events.event_listener import EventListener
+from events.drag_event_listener import DragEventListener
+from events.ball_release_event_listener import BallReleaseEventListener
 
 class Game():
     def __init__(self, screen:pygame.Surface, img_location:str, img_name: str, sound_location:str) -> None:

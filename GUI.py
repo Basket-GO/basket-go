@@ -1,6 +1,6 @@
 import sys
 import pygame
-import button
+import components.button as button
 
 # init pygame.
 pygame.init()
