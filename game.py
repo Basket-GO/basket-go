@@ -22,10 +22,8 @@ class Game():
         self.__window = Window()
         # game threads.
         self.__threads = []
-        public = pygame.image.load("img/public.png")
-        public2 = pygame.image.load("img/public2.png")
         # get the actual basket ball field.
-        field = pygame.image.load(img_location + "terrain_basket_sans_public.png")
+        field = pygame.image.load(img_location + "terrain_basket_public.png")
         field = pygame.transform.scale(field, (1024, 640))
         # get the actual ball.
         ball = pygame.image.load(img_location + img_name+".png")
@@ -33,8 +31,6 @@ class Game():
         placeholder_ball = pygame.image.load(img_location + img_name+"-placeholder.png")
         # register the field without public.
         self.get_window().register_element("field", Element(field, 0, 0))
-        #self.get_window().register_element("public2", Element(public2, 0, 10))
-        self.get_window().register_element("public", Element(public, 0, 10))
         # register the ball.
         self.get_window().register_element("ball", Ball(ball, 170, 450))
         # register the placeholder ball.
