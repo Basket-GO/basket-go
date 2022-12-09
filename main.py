@@ -22,47 +22,48 @@ exit_img = pygame.image.load('./img/exit_btn.png')
 start_img_hov = pygame.image.load('./img/start_btn_hover.png')
 exit_img_hov = pygame.image.load('./img/exit_btn_hover.png')
 #create button instances
-start_button = button.Button(397, 390, start_img, 1)
-start2_button = button.Button(397, 390, start_img_hov, 1)
-exit_button = button.Button(412, 500, exit_img, 1)
-exit2_button = button.Button(412, 500, exit_img_hov, 1)
+start_button = button.Button(397, 390, start_img, start_img_hov, 1)
+exit_button = button.Button(412, 500, exit_img, exit_img_hov, 1)
 
-# create a new instance of the Game.
 clock = pygame.time.Clock()
 is_running = True
-
+press = False
+press2 = False
 while is_running:
-    if start_button.draw(window):
-        # init pygame.
-        pygame.init()
-        # load game icon.
-        icon = pygame.image.load("img/Logo.png")
-        # set game icon.
-        pygame.display.set_icon(icon)
-        # set game name.
-        pygame.display.set_caption("ʙᴀsᴋᴇᴛ ɢᴏ !")
-        # define window's size.
-        screen = pygame.display.set_mode((1024,640))
+    MOUSE_POS = pygame.mouse.get_pos()
+    if start_button.draw_and_clicked(window) or press == True :
         image = ["flame","mountains","pink","basket-ball","smile","military"]
         i = random.randint(0,5)
         # create a new instance of the Game.
-        game = Game(screen, "img/",image[i], None)
+        game = Game(window, "img/",image[i], None)
         # register dummy player.
         game.register_player("Yanis")
         # setup the game.
         game.setup()
-    if exit_button.draw(window):
+    if exit_button.draw_and_clicked(window) or press2 == True:
         pygame.quit()
         sys.exit()
-    MOUSE_POS = pygame.mouse.get_pos()
-    if  397 <= MOUSE_POS[0] < 622 and 390 <= MOUSE_POS[1] < 490 :
-        start2_button.draw(window)
-    if  412 <= MOUSE_POS[0] < 607 and 500 <= MOUSE_POS[1] < 600 :
-        exit2_button.draw(window)
     for event in pygame.event.get():
         if event.type == pygame.QUIT:
             pygame.quit()
             sys.exit()
+        if event.type == pygame.KEYDOWN:
+            if event.key == pygame.K_RETURN:
+                if start_button.rect.collidepoint(MOUSE_POS) :
+                    press = True
+                else :
+                    press = False
+                if exit_button.rect.collidepoint(MOUSE_POS) :
+                    press2 = True
+                else :
+                    press2 = False
+            #if K_UP is pressed moov cursor on button start
+            if event.scancode == 82 :
+                pygame.mouse.set_pos((513,438))
+            #if K_DOWN is pressed moov cursor on button exit
+            if event.scancode == 81 :
+                pygame.mouse.set_pos((513,547))
+
     pygame.display.update()
     clock.tick(60)
     
