@@ -36,7 +36,7 @@ class Game():
         # register the placeholder ball.
         self.get_window().register_element("placeholder_ball", Element(placeholder_ball, 170, 450))
         # listen to events.
-        self.listen(pygame.MOUSEMOTION, DragEventListener())
+        self.listen(pygame.MOUSEMOTION, DragEventListener(self))
         self.listen(pygame.MOUSEBUTTONUP, BallReleaseEventListener()) 
     def get_window(self) -> Window:
         """
