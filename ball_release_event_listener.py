@@ -20,9 +20,11 @@ class BallReleaseEventListener(EventListener):
         ball.set_released(True)
         # disable ball.
         placeholder_ball.set_visible(False)
+        # retrive game's window.
+        window = game.get_window()
         # clear dots.
         for i in range(20):
-            game.get_window().remove_element(("dot_",str(i)))
+            window.get_element(("dot_",str(i))).set_visible(False)
         # launch new thread.
         self.__t = StoppableThread(target=self.__move_ball, args=(game,))
         # register the thread in order to be able to kill it.
@@ -71,4 +73,11 @@ class BallReleaseEventListener(EventListener):
                     # update vector.
                     v.set_x(v.normalize() * cos(alpha) * 0.8)
                     v.set_y(v.normalize() * sin(alpha) * 0.8)
+                # check if the ball is out of the screen.
+                if x - bw >= w or x + bw <= 0 or (y >= 570 and v.get_y() > -0.05):
+                    # reset ball's coordinates.
+                    ball.set_x(ball.get_initial_x())
+                    ball.set_y(ball.get_initial_y())
+                    ball.set_released(False)
+                    break
                 tr += delta_time
