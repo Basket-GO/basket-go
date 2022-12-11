@@ -1,7 +1,7 @@
 from event_listener import EventListener
 from stoppable_thread import StoppableThread
 from vector import Vector
-from math import (atan, cos, sin)
+from math import (atan, cos, sin, pi, copysign)
 from time import time
 import pygame
 
@@ -59,13 +59,13 @@ class BallReleaseEventListener(EventListener):
                 v.set_y(v.get_y() + g * delta_time)
                 # update the ball's current coordinates.
                 x += v.get_x() * delta_time * 60
-                y += v.get_y() * delta_time * 60
+                y = v.get_y() * delta_time * 60 + y if (v.get_y() * delta_time * 60) + y < h - bh else h - bh
                 # display the ball.
                 ball.set_x(x)
                 ball.set_y(y)
                 if y + bh >= h:
                     # calculate alpha.
-                    alpha = atan(v.get_y() / v.get_x())
+                    alpha = atan(v.get_y() / v.get_x()) if v.get_x() > 0 and v.get_x() else copysign(pi / 2, v.get_y())
                     # re-calculate alpha.
                     alpha = -alpha
                     # update vector.
