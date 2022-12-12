@@ -15,7 +15,8 @@ pygame.display.set_caption("ʙᴀsᴋᴇᴛ ɢᴏ !")
 # define window's size.
 window = pygame.display.set_mode((1024,640))
 fond = pygame.image.load('./img/bg.png')
-window.blit(fond, (0,0))
+pygame.mouse.set_pos((fond.get_width()/2,fond.get_height()/2))
+
 #load button images
 start_img = pygame.image.load('./img/start_btn.png')
 exit_img = pygame.image.load('./img/exit_btn.png')
@@ -24,13 +25,25 @@ exit_img_hov = pygame.image.load('./img/exit_btn_hover.png')
 #create button instances
 start_button = button.Button(397, 390, start_img, start_img_hov, 1)
 exit_button = button.Button(412, 500, exit_img, exit_img_hov, 1)
-clock = pygame.time.Clock()
 
+clock = pygame.time.Clock()
 is_running = True
 press = False
 press2 = False
+
+#set cursor
+cursor = "img/cursor.png"
+cursor_init = pygame.image.load(cursor).convert_alpha()
+pygame.mouse.set_visible(False)
+
 while is_running:
     MOUSE_POS = pygame.mouse.get_pos()
+    x,y = pygame.mouse.get_pos()
+    x -= cursor_init.get_width()/2
+    y -= cursor_init.get_height()/2
+    #blit background
+    window.blit(fond,(0,0))
+    #if start_button was clicked or selected and press enter
     if start_button.draw_and_clicked(window) or press == True :
         image = ["flame","mountains","pink","basket-ball","smile","military"]
         i = random.randint(0,5)
@@ -40,9 +53,16 @@ while is_running:
         game.register_player("Yanis")
         # setup the game.
         game.setup()
+    #if exit_button was clicked or selected and press enter
     if exit_button.draw_and_clicked(window) or press2 == True:
         pygame.quit()
         sys.exit()
+    window.blit(cursor_init,(x,y))
+    #if the mouse_position is on the button -> cursor invisible else invisble
+    """if start_button.rect.collidepoint(MOUSE_POS) or exit_button.rect.collidepoint(MOUSE_POS) :
+        pygame.mouse.set_visible(False)
+    else :
+        pygame.mouse.set_visible(True)"""
     for event in pygame.event.get():
         if event.type == pygame.QUIT:
             pygame.quit()
@@ -59,10 +79,17 @@ while is_running:
                     press2 = False
             #if K_UP is pressed moov cursor on button start
             if event.scancode == 82 :
-                pygame.mouse.set_pos((513,438))
+                if MOUSE_POS != (513,438) :
+                    pygame.mouse.set_pos((513,438))
+                else :
+                    pygame.mouse.set_pos((513,547))
             #if K_DOWN is pressed moov cursor on button exit
             if event.scancode == 81 :
-                pygame.mouse.set_pos((513,547))
+                if MOUSE_POS != (513,547) :
+                    pygame.mouse.set_pos((513,547))
+                else :
+                    pygame.mouse.set_pos((513,438))
+
     pygame.display.update()
     clock.tick(60)
     
