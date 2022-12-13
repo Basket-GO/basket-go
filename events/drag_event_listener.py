@@ -34,3 +34,4 @@ class DragEventListener(EventListener):
                     dot.set_y(y)
                     # set the dot visible.
                     dot.set_visible(True)
+            # get the initial x and y value.

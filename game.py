@@ -10,8 +10,9 @@ from events.event_listener import EventListener
 from events.drag_event_listener import DragEventListener
 from events.ball_release_event_listener import BallReleaseEventListener
 
+
 class Game():
-    def __init__(self, screen:pygame.Surface, img_location:str, img_name: str, sound_location:str) -> None:
+    def __init__(self, screen: pygame.Surface, img_location: str, img_name: str, sound_location: str) -> None:
         # get the actual display screen.
         self.__screen = screen
         # set up playing players.
@@ -37,22 +38,28 @@ class Game():
         # get the actual ball.
         ball = pygame.image.load(img_location + img_name+".png")
         # get the placeholder ball.
-        placeholder_ball = pygame.image.load(img_location + img_name+"-placeholder.png")
+        placeholder_ball = pygame.image.load(
+            img_location + img_name+"-placeholder.png")
         # register the field without public.
         self.get_window().register_element("field", Element(field2, 0, 0))
         # register the ball.
         self.get_window().register_element("ball", Ball(ball, 170, 450))
         # register the placeholder ball.
-        self.get_window().register_element("placeholder_ball", Element(placeholder_ball, 170, 450))
+        self.get_window().register_element("placeholder_ball",
+                                           Element(placeholder_ball, 170, 450))
         # listen to events.
-        self.listen(pygame.MOUSEMOTION, DragEventListener())
-        self.listen(pygame.MOUSEBUTTONUP, BallReleaseEventListener()) 
+        self.listen(pygame.MOUSEMOTION,
+                    DragEventListener())
+        self.listen(pygame.MOUSEBUTTONUP,
+                    BallReleaseEventListener())
+
     def get_window(self) -> Window:
         """
         :return: the game's window.
         """
         return self.__window
-    def register_player(self, player_name:str) -> None:
+
+    def register_player(self, player_name: str) -> None:
         """
         Register a player by its name.
         :param: str player_name: the player's name.
@@ -63,6 +70,7 @@ class Game():
         player.setup()
         # register the player.
         self.__players.append(player)
+
     def register_thread(self, thread) -> None:
         """
         Register the given thread into a list.
@@ -105,7 +113,8 @@ class Game():
             #cursor init
             self.__screen.blit(self.cursor,(x,y))
             pygame.display.update()
-    def listen(self, event_type:int, event_listener:EventListener) -> None:
+
+    def listen(self, event_type: int, event_listener: EventListener) -> None:
         """
         Takes in parameter an event to call and an event type to listen to.
         Bind in pair the event type and the event to call.
@@ -113,8 +122,10 @@ class Game():
         :param EventListener event_listener: the event listener that will be called.
         """
         self.__events.append([event_type, event_listener])
+
     def end(self):
         pass
+
     def get_screen(self):
         """
         Return game's screen.

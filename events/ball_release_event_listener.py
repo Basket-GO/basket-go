@@ -5,10 +5,11 @@ from math import (atan, cos, sin)
 from time import time
 import pygame
 
+
 class BallReleaseEventListener(EventListener):
     def __init__(self) -> None:
         super().__init__()
-    
+
     def run(self, event, game):
         # retrieve the ball.
         ball = game.get_window().get_element("ball")
@@ -29,6 +30,7 @@ class BallReleaseEventListener(EventListener):
         game.register_thread(self.__t)
         # start the thread execution.
         self.__t.start()
+
     def __move_ball(self, game):
         """
         Makes the ball move.
@@ -45,7 +47,8 @@ class BallReleaseEventListener(EventListener):
         x, y = ball.get_x(), ball.get_y()
         # define gravitation.
         g = 9.81
-        vx, vy = 0.1 * (ball.get_initial_x() - ball.get_x()), 0.1 * (ball.get_initial_y() - ball.get_y())
+        vx, vy = 0.1 * (ball.get_initial_x() - ball.get_x()
+                        ), 0.1 * (ball.get_initial_y() - ball.get_y())
         # define our vector
         v = Vector(vx, vy)
         # define our reference time.
