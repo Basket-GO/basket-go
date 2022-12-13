@@ -58,11 +58,6 @@ while is_running:
         pygame.quit()
         sys.exit()
     window.blit(cursor_init,(x,y))
-    #if the mouse_position is on the button -> cursor invisible else invisble
-    """if start_button.rect.collidepoint(MOUSE_POS) or exit_button.rect.collidepoint(MOUSE_POS) :
-        pygame.mouse.set_visible(False)
-    else :
-        pygame.mouse.set_visible(True)"""
     for event in pygame.event.get():
         if event.type == pygame.QUIT:
             pygame.quit()
