@@ -8,12 +8,11 @@ class DragEventListener(EventListener):
         super().__init__()
         self.__white_dot = pygame.image.load("img/white_dot.png")
         self.__white_dot = pygame.transform.scale(self.__white_dot, (20, 20))
-
+    
     def run(self, event, game):
         # pre-register the dots.
         for i in range(0, 20):
-            game.get_window().register_element(("dot_", str(i)),
-                                               Element(self.__white_dot, 0, 0, False, False))
+            game.get_window().register_element(("dot_",str(i)), Element(self.__white_dot, 0, 0, False, False))
         # retrieve the ball.
         ball = game.get_window().get_element("ball")
         if pygame.mouse.get_pressed()[0] == True and not ball.is_released():
@@ -29,9 +28,10 @@ class DragEventListener(EventListener):
                 y = (9.81 * t**2 + vy * t + ball.get_y() + 30)
                 if t != 0:
                     # retrieve the dot.
-                    dot = game.get_window().get_element(("dot_", str(t)))
+                    dot = game.get_window().get_element(("dot_",str(t)))
                     # update x and y coordinates.
                     dot.set_x(x)
                     dot.set_y(y)
                     # set the dot visible.
                     dot.set_visible(True)
+            # get the initial x and y value.

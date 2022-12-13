@@ -23,7 +23,7 @@ class BallReleaseEventListener(EventListener):
         placeholder_ball.set_visible(False)
         # clear dots.
         for i in range(20):
-            game.get_window().remove_element(("dot_", str(i)))
+            game.get_window().remove_element(("dot_",str(i)))
         # launch new thread.
         self.__t = StoppableThread(target=self.__move_ball, args=(game,))
         # register the thread in order to be able to kill it.
@@ -54,6 +54,7 @@ class BallReleaseEventListener(EventListener):
         # define our reference time.
         tr = time()
         # update x and y position.
+
         while True:
             if self.__t.stopped():
                 break
