@@ -64,6 +64,8 @@ class BallReleaseEventListener(EventListener):
         tr = time()
         # update x and y position.
         while True:
+            if self.__t.paused():
+                pass
             if self.__t.stopped():
                 break
             ts = time() - tr
