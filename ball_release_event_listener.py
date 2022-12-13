@@ -1,7 +1,7 @@
 from event_listener import EventListener
 from stoppable_thread import StoppableThread
 from vector import Vector
-from math import (atan, cos, sin, pi, copysign)
+from math import (atan, cos, sin, pi, copysign, tan)
 from time import time
 import pygame
 
@@ -12,16 +12,23 @@ class BallReleaseEventListener(EventListener):
     def run(self, event, game):
         # retrieve the ball.
         ball = game.get_window().get_element("ball")
+        # check if the ball is already released.
+        if ball.is_released():
+            return
         # retrieve the placeholder ball.
         placeholder_ball = game.get_window().get_element("placeholder_ball")
+        # retrive game's window.
+        window = game.get_window()
         # check if the ball is at the same position
-        if abs(ball.get_x() - ball.get_initial_x()) < 15 and abs(ball.get_y() - ball.get_initial_y()) < 15 or ball.is_released():
+        if abs(ball.get_x() - ball.get_initial_x()) < 60 and abs(ball.get_y() - ball.get_initial_y()) < 60 or ball.is_released():
+            ball.respawn()
+            # clear dots.
+            for i in range(20):
+                window.get_element(("dot_",str(i))).set_visible(False)
             return
         ball.set_released(True)
         # disable ball.
         placeholder_ball.set_visible(False)
-        # retrive game's window.
-        window = game.get_window()
         # clear dots.
         for i in range(20):
             window.get_element(("dot_",str(i))).set_visible(False)
@@ -66,8 +73,12 @@ class BallReleaseEventListener(EventListener):
                 ball.set_x(x)
                 ball.set_y(y)
                 if y + bh >= h:
-                    # calculate alpha.
-                    alpha = atan(v.get_y() / v.get_x()) if v.get_x() > 0 and v.get_x() else copysign(pi / 2, v.get_y())
+                    if v.get_x() == 0:
+                        alpha = copysign(pi / 2, v.get_y())
+                    elif v.get_x() > 0:
+                        alpha = atan(v.get_y() / v.get_x())
+                    elif v.get_x() < 0:
+                        alpha = pi + atan(v.get_y() / v.get_x())
                     # re-calculate alpha.
                     alpha = -alpha
                     # update vector.
@@ -76,8 +87,6 @@ class BallReleaseEventListener(EventListener):
                 # check if the ball is out of the screen.
                 if x - bw >= w or x + bw <= 0 or (y >= 570 and v.get_y() > -0.05):
                     # reset ball's coordinates.
-                    ball.set_x(ball.get_initial_x())
-                    ball.set_y(ball.get_initial_y())
-                    ball.set_released(False)
+                    ball.respawn()
                     break
                 tr += delta_time
