@@ -1,17 +1,18 @@
 import pygame
 import sys
 
-from player import Player
+from components.player import Player
 from element import Element
-from window import Window
-from ball import Ball
+from interface.window import Window
+from components.ball import Ball
 
-from event_listener import EventListener
-from drag_event_listener import DragEventListener
-from ball_release_event_listener import BallReleaseEventListener
+from events.event_listener import EventListener
+from events.drag_event_listener import DragEventListener
+from events.ball_release_event_listener import BallReleaseEventListener
+
 
 class Game():
-    def __init__(self, screen:pygame.Surface, img_location:str, img_name: str, sound_location:str) -> None:
+    def __init__(self, screen: pygame.Surface, img_location: str, img_name: str, sound_location: str) -> None:
         # get the actual display screen.
         self.__screen = screen
         # set up playing players.
@@ -23,18 +24,21 @@ class Game():
         # game threads.
         self.__threads = []
         # get the actual basket ball field.
-        field = pygame.image.load(img_location + "terrain_basket_sans_public.png")
+        field = pygame.image.load(
+            img_location + "terrain_basket_sans_public.png")
         field = pygame.transform.scale(field, (1024, 640))
         # get the actual ball.
         ball = pygame.image.load(img_location + img_name+".png")
         # get the placeholder ball.
-        placeholder_ball = pygame.image.load(img_location + img_name+"-placeholder.png")
+        placeholder_ball = pygame.image.load(
+            img_location + img_name+"-placeholder.png")
         # register the field without public.
         self.get_window().register_element("field", Element(field, 0, 0))
         # register the ball.
         self.get_window().register_element("ball", Ball(ball, 170, 450))
         # register the placeholder ball.
-        self.get_window().register_element("placeholder_ball", Element(placeholder_ball, 170, 450))
+        self.get_window().register_element("placeholder_ball",
+                                           Element(placeholder_ball, 170, 450))
         # listen to events.
         self.listen(pygame.MOUSEMOTION, DragEventListener(self))
         self.listen(pygame.MOUSEBUTTONUP, BallReleaseEventListener()) 
@@ -43,7 +47,8 @@ class Game():
         :return: the game's window.
         """
         return self.__window
-    def register_player(self, player_name:str) -> None:
+
+    def register_player(self, player_name: str) -> None:
         """
         Register a player by its name.
         :param: str player_name: the player's name.
@@ -54,11 +59,13 @@ class Game():
         player.setup()
         # register the player.
         self.__players.append(player)
+
     def register_thread(self, thread) -> None:
         """
         Register the given thread into a list.
         """
         self.__threads.append(thread)
+
     def setup(self):
         """
         Setup the ressources (background image, audio, etc.)
@@ -85,7 +92,8 @@ class Game():
                         # run the event.
                         event_pair[1].run(event, self)
             pygame.display.update()
-    def listen(self, event_type:int, event_listener:EventListener) -> None:
+
+    def listen(self, event_type: int, event_listener: EventListener) -> None:
         """
         Takes in parameter an event to call and an event type to listen to.
         Bind in pair the event type and the event to call.
@@ -93,11 +101,12 @@ class Game():
         :param EventListener event_listener: the event listener that will be called.
         """
         self.__events.append([event_type, event_listener])
+
     def end(self):
         pass
+
     def get_screen(self):
         """
         Return game's screen.
         """
         return self.__screen
-    
