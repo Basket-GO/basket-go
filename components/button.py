@@ -9,7 +9,7 @@ class Button():
         self.image2 = pygame.transform.scale(image2, (int(width * scale), int(height * scale)))
         self.rect = self.image.get_rect()
         self.rect.topleft = (x, y)
-        self.clicked = False
+
         self.hovered = False
         self.hover_sound = pygame.mixer.Sound("./sound/blipshort1.wav")
 
@@ -23,18 +23,14 @@ class Button():
         if self.rect.collidepoint(pos):
             if not self.hovered:
                 self.hovered = True
-                if self.hover_sound:
+                if self.hovered:
                     self.hover_sound.play()
             image = self.image2
-            if pygame.mouse.get_pressed()[0] == 1 and self.clicked == False:
-                self.clicked = True
+            if pygame.mouse.get_pressed()[0] == 1 :
                 action = True
         else:
             self.hovered = False
             
-
-        if pygame.mouse.get_pressed()[0] == 0:
-            self.clicked = False
         #draw button on screen
         surface.blit(image, (self.rect.x, self.rect.y))
 
