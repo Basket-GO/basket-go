@@ -24,12 +24,15 @@ start_img_hov = pygame.image.load('./img/button/start_btn_hover.png')
 exit_img_hov = pygame.image.load('./img/button/exit_btn_hover.png')
 Leader_img = pygame.image.load('./img/button/Leaderboard_btn.png')
 Leader_img_hov = pygame.image.load('./img/button/Leaderboard_btn_hov.png')
+shop_img = pygame.image.load('./img/button/shop_img.png')
+shop_img_hov = pygame.image.load('./img/button/shop_img_hov.png')
 gear_img = pygame.image.load('./img/button/gear_img.png')
 gear_img_hov = pygame.image.load('./img/button/gear_img_hov.png')
 #create button instances
 start_button = button.Button(397, 390, start_img, start_img_hov, 1)
 exit_button = button.Button(412, 500, exit_img, exit_img_hov, 1)
 leader_btn = button.Button(920,540, Leader_img, Leader_img_hov,1)
+shop_btn = button.Button(840,550, shop_img, shop_img_hov,1)
 gear_btn = button.Button(17,550, gear_img, gear_img_hov,1)
 clock = pygame.time.Clock()
 is_running = True
@@ -52,6 +55,8 @@ while is_running:
     if leader_btn.draw_and_clicked(window) :
         pass
     if gear_btn.draw_and_clicked(window) :
+        pass
+    if shop_btn.draw_and_clicked(window) :
         pass
     #if start0_button was clicked or selected and press enter
     if start_button.draw_and_clicked(window) or press == True :
