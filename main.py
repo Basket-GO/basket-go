@@ -45,8 +45,8 @@ while is_running:
     exit_window= False
     MOUSE_POS = pygame.mouse.get_pos()
     x,y = pygame.mouse.get_pos()
-    x -= cursor_init.get_width()/2
-    y -= cursor_init.get_height()/2
+    x -= cursor_init.get_width()/2-5
+    y -= cursor_init.get_height()/2-8
     #blit background
     window.blit(fond,(0,0))
     if leader_btn.draw_and_clicked(window) :

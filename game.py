@@ -84,8 +84,8 @@ class Game():
         """
         while True:
             x,y = pygame.mouse.get_pos()
-            x -= self.cursor.get_width()/2
-            y -= self.cursor.get_height()/2
+            x -= self.cursor.get_width()/2-5
+            y -= self.cursor.get_height()/2-8
             self.clock.tick(self.fps)
             self.display_fps()
             # loop through each elements.
