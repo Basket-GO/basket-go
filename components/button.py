@@ -10,24 +10,31 @@ class Button():
         self.rect = self.image.get_rect()
         self.rect.topleft = (x, y)
         self.clicked = False
+        self.hovered = False
+        self.hover_sound = pygame.mixer.Sound("./sound/blipshort1.wav")
 
     def draw_and_clicked(self, surface):
         """ write button and return action"""
-        press_up_or_down = True
         action = False
         #get mouse position
-        pos = pygame.mouse.get_pos()
         image = self.image
+        pos = pygame.mouse.get_pos()
         #check mouseover and clicked conditions
-        if self.rect.collidepoint(pos) : 
+        if self.rect.collidepoint(pos):
+            if not self.hovered:
+                self.hovered = True
+                if self.hover_sound:
+                    self.hover_sound.play()
             image = self.image2
             if pygame.mouse.get_pressed()[0] == 1 and self.clicked == False:
                 self.clicked = True
                 action = True
+        else:
+            self.hovered = False
+            
 
         if pygame.mouse.get_pressed()[0] == 0:
             self.clicked = False
-
         #draw button on screen
         surface.blit(image, (self.rect.x, self.rect.y))
 
