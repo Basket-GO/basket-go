@@ -18,14 +18,19 @@ fond = pygame.image.load('./img/bg.png')
 pygame.mouse.set_pos((fond.get_width()/2,fond.get_height()/2))
 
 #load button images
-start_img = pygame.image.load('./img/start_btn.png')
-exit_img = pygame.image.load('./img/exit_btn.png')
-start_img_hov = pygame.image.load('./img/start_btn_hover.png')
-exit_img_hov = pygame.image.load('./img/exit_btn_hover.png')
+start_img = pygame.image.load('./img/button/start_btn.png')
+exit_img = pygame.image.load('./img/button/exit_btn.png')
+start_img_hov = pygame.image.load('./img/button/start_btn_hover.png')
+exit_img_hov = pygame.image.load('./img/button/exit_btn_hover.png')
+Leader_img = pygame.image.load('./img/button/Leaderboard_btn.png')
+Leader_img_hov = pygame.image.load('./img/button/Leaderboard_btn_hov.png')
+gear_img = pygame.image.load('./img/button/gear_img.png')
+gear_img_hov = pygame.image.load('./img/button/gear_img_hov.png')
 #create button instances
 start_button = button.Button(397, 390, start_img, start_img_hov, 1)
 exit_button = button.Button(412, 500, exit_img, exit_img_hov, 1)
-
+leader_btn = button.Button(920,540, Leader_img, Leader_img_hov,1)
+gear_btn = button.Button(17,550, gear_img, gear_img_hov,1)
 clock = pygame.time.Clock()
 is_running = True
 press = False
@@ -37,18 +42,23 @@ cursor_init = pygame.image.load(cursor).convert_alpha()
 pygame.mouse.set_visible(False)
 
 while is_running:
+    exit_window= False
     MOUSE_POS = pygame.mouse.get_pos()
     x,y = pygame.mouse.get_pos()
     x -= cursor_init.get_width()/2
     y -= cursor_init.get_height()/2
     #blit background
     window.blit(fond,(0,0))
-    #if start_button was clicked or selected and press enter
+    if leader_btn.draw_and_clicked(window) :
+        pass
+    if gear_btn.draw_and_clicked(window) :
+        pass
+    #if start0_button was clicked or selected and press enter
     if start_button.draw_and_clicked(window) or press == True :
         image = ["flame","mountains","pink","basket-ball","smile","military"]
         i = random.randint(0,5)
         # create a new instance of the Game.
-        game = Game(window, "img/",image[i], None)
+        game = Game(window, "img/basket-ball/",image[i], None)
         # register dummy player.
         game.register_player("Yanis")
         # setup the game.

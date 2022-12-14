@@ -28,7 +28,7 @@ class Game():
         # get the actual basket ball field.
         field = pygame.image.load(img_location + "terrain_basket_public.png")
         field = pygame.transform.scale(field, (1024, 640))
-        field2 = pygame.image.load("img/terrain_basket_public_2.png")
+        field2 = pygame.image.load(img_location +"terrain_basket_public_2.png")
         field2 = pygame.transform.scale(field2, (1024, 640))
         self.field = field
         self.field2 = field2

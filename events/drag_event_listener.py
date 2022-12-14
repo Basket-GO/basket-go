@@ -6,8 +6,7 @@ import pygame
 class DragEventListener(EventListener):
     def __init__(self, game) -> None:
         super().__init__()
-        self.__white_dot = pygame.image.load("img/white_dot.png")
-        self.__white_dot = pygame.transform.scale(self.__white_dot, (20, 20))
+        self.__white_dot = pygame.image.load("img/basket-ball/white_dot.png")
         # pre-register the dots.
         for i in range(20):
             game.get_window().register_element(("dot_",str(i)), Element(self.__white_dot, 0, 0, False, False))
