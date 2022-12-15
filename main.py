@@ -7,33 +7,33 @@ from game import Game
 # init pygame.
 pygame.init()
 # load game icon.
-icon = pygame.image.load("./img/Logo.png")
+icon = pygame.image.load("./img/icon.png")
 # set game icon.
 pygame.display.set_icon(icon)
 # set game name.
 pygame.display.set_caption("ʙᴀsᴋᴇᴛ ɢᴏ !")
 # define window's size.
 window = pygame.display.set_mode((1024,640))
-fond = pygame.image.load('./img/bg.png')
+fond = pygame.image.load('./img/main_menu/background/bg.png')
 pygame.mouse.set_pos((fond.get_width()/2,fond.get_height()/2))
 
 #load button images
-start_img = pygame.image.load('./img/button/start_btn.png')
-exit_img = pygame.image.load('./img/button/exit_btn.png')
-start_img_hov = pygame.image.load('./img/button/start_btn_hover.png')
-exit_img_hov = pygame.image.load('./img/button/exit_btn_hover.png')
-Leader_img = pygame.image.load('./img/button/Leaderboard_btn.png')
-Leader_img_hov = pygame.image.load('./img/button/Leaderboard_btn_hov.png')
-shop_img = pygame.image.load('./img/button/shop_btn.png')
-shop_img_hov = pygame.image.load('./img/button/shop_btn_hov.png')
-sound_img = pygame.image.load('./img/button/sound_btn.png')
-sound_img_hov = pygame.image.load('./img/button/sound_btn_hov.png')
-gear_img = pygame.image.load('./img/button/gear_btn.png')
-gear_img_hov = pygame.image.load('./img/button/gear_btn_hov.png')
-back_img = pygame.image.load('./img/button/back_btn.png')
-back_img_hov = pygame.image.load('./img/button/back_btn_hov.png')
-save_img = pygame.image.load('./img/button/save_btn.png')
-save_img_hov = pygame.image.load('./img/button/save_btn_hov.png')
+start_img = pygame.image.load('./img/main_menu/buttons/start_btn.png')
+exit_img = pygame.image.load('./img/main_menu/buttons/exit_btn.png')
+start_img_hov = pygame.image.load('./img/main_menu/buttons/start_btn_hov.png')
+exit_img_hov = pygame.image.load('./img/main_menu/buttons/exit_btn_hov.png')
+Leader_img = pygame.image.load('./img/main_menu/buttons/Leaderboard_btn.png')
+Leader_img_hov = pygame.image.load('./img/main_menu/buttons/Leaderboard_btn_hov.png')
+shop_img = pygame.image.load('./img/main_menu/buttons/shop_btn.png')
+shop_img_hov = pygame.image.load('./img/main_menu/buttons/shop_btn_hov.png')
+sound_img = pygame.image.load('./img/option_menu/buttons/sound_btn.png')
+sound_img_hov = pygame.image.load('./img/option_menu/buttons/sound_btn_hov.png')
+gear_img = pygame.image.load('./img/main_menu/buttons/gear_btn.png')
+gear_img_hov = pygame.image.load('./img/main_menu/buttons/gear_btn_hov.png')
+back_img = pygame.image.load('./img/option_menu/buttons/back_btn.png')
+back_img_hov = pygame.image.load('./img/option_menu/buttons/back_btn_hov.png')
+save_img = pygame.image.load('./img/option_menu/buttons/save_btn.png')
+save_img_hov = pygame.image.load('./img/option_menu/buttons/save_btn_hov.png')
 #create button instances
 start_button = button.Button(397, 390, start_img, start_img_hov, 1)
 exit_button = button.Button(412, 500, exit_img, exit_img_hov, 1)
@@ -127,16 +127,16 @@ while is_running:
                         pygame.mouse.set_pos((887,598))
     #check if the options menu is open
     if menu_state == "options":
-        fond = pygame.image.load('./img/bg_option.png')
+        fond = pygame.image.load('./img/option_menu/background/bg.png')
         #draw the different options buttons
         if back_btn.draw_and_clicked(window) or press == True:
             menu_state = "main"
             press = False
-            fond = pygame.image.load('./img/bg.png')
+            fond = pygame.image.load('./img/main_menu/background/bg.png')
         if save_btn.draw_and_clicked(window) or press2 == True :
             menu_state = "main"
             press2 = False
-            fond = pygame.image.load('./img/bg.png')
+            fond = pygame.image.load('./img/option_menu/background/bg.png')
         for event in pygame.event.get():
             if event.type == pygame.QUIT:
                 pygame.quit()

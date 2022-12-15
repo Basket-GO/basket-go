@@ -1,0 +1,8 @@
+# x,y,scale,is_visible,allow_override
+button_hover="10,100,1,false,false,button_element"
+
+key, value
+"button_element", ""
+"element", ""
+
+ButtonElemnt -> Element
