@@ -66,7 +66,8 @@ while is_running:
     #check if game is paused
     if menu_state == "main":
         if leader_btn.draw_and_clicked(window) :
-            pass
+            menu_state = "options"
+            Leader = True
         if shop_btn.draw_and_clicked(window) :
             pass
         #if start0_button was clicked or selected and press enter
@@ -84,48 +85,90 @@ while is_running:
             sys.exit()
         if gear_btn.draw_and_clicked(window) :
             menu_state = "options"
+            Leader = False
+        for event in pygame.event.get():
+            if event.type == pygame.QUIT:
+                pygame.quit()
+                sys.exit()
+            if event.type == pygame.KEYDOWN:
+                if event.key == pygame.K_RETURN:
+                    if start_button.rect.collidepoint(MOUSE_POS) :
+                        press = True
+                    else :
+                        press = False
+                    if exit_button.rect.collidepoint(MOUSE_POS) :
+                        press2 = True
+                    else :
+                        press2 = False
+                #button path
+                if event.scancode == 82 :
+                    if MOUSE_POS != (513,438) :
+                        pygame.mouse.set_pos((513,438))
+                    else :
+                        pygame.mouse.set_pos((513,547))
+                if event.scancode == 81 :
+                    if MOUSE_POS != (513,547) :
+                        pygame.mouse.set_pos((513,547))
+                    else :
+                        pygame.mouse.set_pos((513,438))
+                if event.scancode == 80 :
+                    if MOUSE_POS != (58,593) :
+                        pygame.mouse.set_pos((58,593))
+                    if MOUSE_POS == (58,593) :
+                        pygame.mouse.set_pos((971,590))
+                    if MOUSE_POS == (971,590)  :
+                        pygame.mouse.set_pos((887,589))
+                if event.scancode == 79 :
+                    if MOUSE_POS != (971,590) :
+                        pygame.mouse.set_pos((971,590))
+                    if MOUSE_POS == (971,590) :
+                        pygame.mouse.set_pos((58,593))
+                    if MOUSE_POS == (58,593) :
+                        pygame.mouse.set_pos((887,598))
     #check if the options menu is open
     if menu_state == "options":
         fond = pygame.image.load('./img/bg_option.png')
-    #draw the different options buttons
-        if sound_btn.draw_and_clicked(window) :
+        #draw the different options buttons
+        if back_btn.draw_and_clicked(window) or press == True:
+            menu_state = "main"
+            press = False
+            fond = pygame.image.load('./img/bg.png')
+        if save_btn.draw_and_clicked(window) or press2 == True :
+            menu_state = "main"
+            press2 = False
+            fond = pygame.image.load('./img/bg.png')
+        for event in pygame.event.get():
+            if event.type == pygame.QUIT:
+                pygame.quit()
+                sys.exit()
+            if event.type == pygame.KEYDOWN:
+                if event.key == pygame.K_RETURN:
+                    if back_btn.rect.collidepoint(MOUSE_POS) :
+                        press = True
+                    else :
+                        press = False
+                    if save_btn.rect.collidepoint(MOUSE_POS) :
+                        press2 = True
+                    else :
+                        press2 = False
+                #button path
+                if event.scancode == 80 :
+                    if MOUSE_POS != (320,550) :
+                        pygame.mouse.set_pos((320,550))
+                    else :
+                        pygame.mouse.set_pos((712,550))
+                if event.scancode == 79 :
+                    if MOUSE_POS != (712,550) :
+                        pygame.mouse.set_pos((712,550))
+                    else :
+                        pygame.mouse.set_pos((320,550))
+        if Leader == False :
+            if sound_btn.draw_and_clicked(window)  :
+                pass
+        else :
             pass
-
-        if back_btn.draw_and_clicked(window) :
-            menu_state = "main"
-            fond = pygame.image.load('./img/bg.png')
-        if save_btn.draw_and_clicked(window) :
-            menu_state = "main"
-            fond = pygame.image.load('./img/bg.png')
-            
+        
     window.blit(cursor_init,(x,y))
-    for event in pygame.event.get():
-        if event.type == pygame.QUIT:
-            pygame.quit()
-            sys.exit()
-        if event.type == pygame.KEYDOWN:
-            if event.key == pygame.K_RETURN:
-                if start_button.rect.collidepoint(MOUSE_POS) :
-                    press = True
-                else :
-                    press = False
-                if exit_button.rect.collidepoint(MOUSE_POS) :
-                    press2 = True
-                else :
-                    press2 = False
-            #if K_UP is pressed moov cursor on button start
-            if event.scancode == 82 :
-                if MOUSE_POS != (513,438) :
-                    pygame.mouse.set_pos((513,438))
-                else :
-                    pygame.mouse.set_pos((513,547))
-            #if K_DOWN is pressed moov cursor on button exit
-            if event.scancode == 81 :
-                if MOUSE_POS != (513,547) :
-                    pygame.mouse.set_pos((513,547))
-                else :
-                    pygame.mouse.set_pos((513,438))
-
     pygame.display.update()
     clock.tick(60)
     
