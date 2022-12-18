@@ -189,12 +189,17 @@ while is_running:
                 sorted(leaderboard_data.items(), key=lambda item: item[1], reverse=True))
             # print the leaderboard
             i = 0
+            g = 0
             for player, score in leaderboard_data.items():
-                textPlayer = font.render(player, True, (255, 255, 255))
-                textScore = font.render(str(score), True, (255, 255, 255))
-                window.blit(textPlayer, (470, 200+i))
-                window.blit(textScore, (600, 200+i))
-                i += 50
+                if g == 4:
+                    break
+                else:
+                    textPlayer = font.render(player, True, (255, 255, 255))
+                    textScore = font.render(str(score), True, (255, 255, 255))
+                    window.blit(textPlayer, (470, 200+i))
+                    window.blit(textScore, (600, 200+i))
+                    i += 50
+                    g += 1
 
             window.blit(textPlayer, (470, 150))
             window.blit(textScore, (600, 150))
