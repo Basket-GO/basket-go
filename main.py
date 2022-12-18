@@ -4,6 +4,10 @@ import components.button as button
 import sys
 from game import Game
 
+from interface.leaderboard import Leaderboard
+leaderboard = Leaderboard("./utils/leaderboard.txt")
+
+
 # init pygame.
 pygame.init()
 # load game icon.
@@ -60,6 +64,10 @@ i = 0
 cursor = "img/cursor.png"
 cursor_init = pygame.image.load(cursor).convert_alpha()
 pygame.mouse.set_visible(False)
+
+# set leaderboard
+leaderboard.import_player_from_txt()
+leaderboard.add_player("Yanis", 100)
 
 while is_running:
     MOUSE_POS = pygame.mouse.get_pos()
@@ -172,20 +180,22 @@ while is_running:
             if sound_btn.draw_and_clicked(window):
                 pass
         else:
-            # Create fake leaderboard data with player and score
-            leaderboard_data = {"yanis": 500,
-                                "joe": 400, "bob": 300, "bubu": 200}
+            # get all player by score in a dict
+            leaderboard_data = leaderboard.get_leaderboard()
             textLeader = font.render("Leaderboard", True, (255, 255, 255))
             textPlayer = font.render("Player", True, (255, 255, 255))
             textScore = font.render("Score", True, (255, 255, 255))
-
-            # Display all the player line by line
-            for i, player in enumerate(leaderboard_data):
-                text = font.render(player, True, (255, 255, 255))
-                window.blit(text, (470, 200 + i * 50))
-                text = font.render(
-                    str(leaderboard_data[player]), True, (255, 255, 255))
-                window.blit(text, (600, 200 + i * 50))
+            # Sort the dict by score
+            leaderboard_data = dict(
+                sorted(leaderboard_data.items(), key=lambda item: item[1], reverse=True))
+            # print the leaderboard
+            i = 0
+            for player, score in leaderboard_data.items():
+                textPlayer = font.render(player, True, (255, 255, 255))
+                textScore = font.render(str(score), True, (255, 255, 255))
+                window.blit(textPlayer, (470, 200+i))
+                window.blit(textScore, (600, 200+i))
+                i += 50
 
             window.blit(textPlayer, (470, 150))
             window.blit(textScore, (600, 150))
