@@ -1,1 +1,4 @@
-Yanis:100
+Louis:5000
+Yanis:4000
+Damien:3000
+Bubu:400

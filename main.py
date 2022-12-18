@@ -67,7 +67,6 @@ pygame.mouse.set_visible(False)
 
 # set leaderboard
 leaderboard.import_player_from_txt()
-leaderboard.add_player("Yanis", 100)
 
 while is_running:
     MOUSE_POS = pygame.mouse.get_pos()
