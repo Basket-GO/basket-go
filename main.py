@@ -67,6 +67,8 @@ pygame.mouse.set_visible(False)
 
 # set leaderboard
 leaderboard.import_player_from_txt()
+leaderboard_data = leaderboard.get_leaderboard_rank()
+
 
 while is_running:
     MOUSE_POS = pygame.mouse.get_pos()
@@ -180,26 +182,17 @@ while is_running:
                 pass
         else:
             # get all player by score in a dict
-            leaderboard_data = leaderboard.get_leaderboard()
             textLeader = font.render("Leaderboard", True, (255, 255, 255))
             textPlayer = font.render("Player", True, (255, 255, 255))
             textScore = font.render("Score", True, (255, 255, 255))
-            # Sort the dict by score
-            leaderboard_data = dict(
-                sorted(leaderboard_data.items(), key=lambda item: item[1], reverse=True))
-            # print the leaderboard
-            i = 0
-            g = 0
-            for player, score in leaderboard_data.items():
-                if g == 4:
-                    break
-                else:
-                    textPlayer = font.render(player, True, (255, 255, 255))
-                    textScore = font.render(str(score), True, (255, 255, 255))
-                    window.blit(textPlayer, (470, 200+i))
-                    window.blit(textScore, (600, 200+i))
-                    i += 50
-                    g += 1
+            # Print the leaderboard from leaderboard_data
+            for i in range(0, len(leaderboard_data)):
+                text = font.render(
+                    leaderboard_data[i][0], True, (255, 255, 255))
+                window.blit(text, (470, 200+i*50))
+                text = font.render(
+                    str(leaderboard_data[i][1]), True, (255, 255, 255))
+                window.blit(text, (600, 200+i*50))
 
             window.blit(textPlayer, (470, 150))
             window.blit(textScore, (600, 150))
