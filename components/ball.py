@@ -17,3 +17,11 @@ class Ball(Element):
         :param bool released: the release state of the ball.
         """
         self.__is_released = released
+    def respawn(self) -> None:
+        """
+        Reset the ball's position to it's initial location
+        and set the ball as not released.
+        """
+        self.set_x(self.get_initial_x())
+        self.set_y(self.get_initial_y())
+        self.set_released(False)

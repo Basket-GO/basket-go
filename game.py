@@ -23,28 +23,33 @@ class Game():
         self.__window = Window()
         # game threads.
         self.__threads = []
+        self.clock = pygame.time.Clock()
+        self.fps = 150
         # get the actual basket ball field.
-        field = pygame.image.load(
-            img_location + "terrain_basket_sans_public.png")
+        field = pygame.image.load(img_location + "terrain_basket_public.png")
         field = pygame.transform.scale(field, (1024, 640))
+        field2 = pygame.image.load("img/terrain_basket_public_2.png")
+        field2 = pygame.transform.scale(field2, (1024, 640))
+        self.field = field
+        self.field2 = field2
+        #get the cursor
+        cursor_init = pygame.image.load("img/cursor.png").convert_alpha()
+        self.cursor = cursor_init
         # get the actual ball.
         ball = pygame.image.load(img_location + img_name+".png")
         # get the placeholder ball.
         placeholder_ball = pygame.image.load(
             img_location + img_name+"-placeholder.png")
         # register the field without public.
-        self.get_window().register_element("field", Element(field, 0, 0))
+        self.get_window().register_element("field", Element(field2, 0, 0))
         # register the ball.
         self.get_window().register_element("ball", Ball(ball, 170, 450))
         # register the placeholder ball.
         self.get_window().register_element("placeholder_ball",
                                            Element(placeholder_ball, 170, 450))
         # listen to events.
-        self.listen(pygame.MOUSEMOTION,
-                    DragEventListener())
-        self.listen(pygame.MOUSEBUTTONUP,
-                    BallReleaseEventListener())
-
+        self.listen(pygame.MOUSEMOTION, DragEventListener(self))
+        self.listen(pygame.MOUSEBUTTONUP, BallReleaseEventListener()) 
     def get_window(self) -> Window:
         """
         :return: the game's window.
@@ -68,13 +73,21 @@ class Game():
         Register the given thread into a list.
         """
         self.__threads.append(thread)
-
+    def display_fps(self):
+        """Show the program's FPS in the window handle."""
+        caption = "{} - FPS: {:.2f}".format("ʙᴀsᴋᴇᴛ ɢᴏ !", self.clock.get_fps())
+        pygame.display.set_caption(caption)
     def setup(self):
         """
         Setup the ressources (background image, audio, etc.)
         and listen to all the events built in the game.
         """
         while True:
+            x,y = pygame.mouse.get_pos()
+            x -= self.cursor.get_width()/2
+            y -= self.cursor.get_height()/2
+            self.clock.tick(self.fps)
+            self.display_fps()
             # loop through each elements.
             for element in self.__window.get_elements():
                 # retrive the object.
@@ -94,6 +107,8 @@ class Game():
                     if event_pair[0] == event.type:
                         # run the event.
                         event_pair[1].run(event, self)
+            #cursor init
+            self.__screen.blit(self.cursor,(x,y))
             pygame.display.update()
 
     def listen(self, event_type: int, event_listener: EventListener) -> None:
@@ -113,3 +128,4 @@ class Game():
         Return game's screen.
         """
         return self.__screen
+    
