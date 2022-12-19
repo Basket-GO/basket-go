@@ -17,6 +17,8 @@ class Leaderboard:
         """
         if player in self.leaderboard:
             raise ValueError("Player already exists")
+        elif len(player) > 10:
+            raise ValueError("Player name too long")
         else:
             self.leaderboard[player] = score
             if self.path:
@@ -32,6 +34,8 @@ class Leaderboard:
         """
         if player in self.leaderboard:
             raise ValueError("Player already exists")
+        elif len(player) > 10:
+            raise ValueError("Player name too long")
         else:
             self.leaderboard[player] = score
 
@@ -44,7 +48,10 @@ class Leaderboard:
             with open(self.path, "r") as file:
                 for line in file:
                     player, score = line.split(":")
-                    self.add_player_from_txt(player, int(score))
+                    if len(player) > 10:
+                        raise ValueError("Player name too long")
+                    else:
+                        self.add_player_from_txt(player, int(score))
         else:
             raise ValueError("No path specified")
 
@@ -93,4 +100,7 @@ class Leaderboard:
         @return: The leaderboard sorted by rank
         """
 
-        return sorted(self.leaderboard.items(), key=lambda x: x[1], reverse=True)
+        listSorted = sorted(self.leaderboard.items(),
+                            key=lambda x: x[1], reverse=True)
+        # return only the 5 first entry
+        return listSorted[:5]
