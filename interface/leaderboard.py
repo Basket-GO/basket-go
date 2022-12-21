@@ -19,6 +19,8 @@ class Leaderboard:
             raise ValueError("Player already exists")
         elif len(player) > 10:
             raise ValueError("Player name too long")
+        elif len(player) == 0:
+            raise ValueError("Player name cannot be empty")
         else:
             self.leaderboard[player] = score
             if self.path:
@@ -36,6 +38,8 @@ class Leaderboard:
             raise ValueError("Player already exists")
         elif len(player) > 10:
             raise ValueError("Player name too long")
+        elif len(player) == 0:
+            raise ValueError("Player name cannot be empty")
         else:
             self.leaderboard[player] = score
 
@@ -50,6 +54,8 @@ class Leaderboard:
                     player, score = line.split(":")
                     if len(player) > 10:
                         raise ValueError("Player name too long")
+                    elif len(player) == 0:
+                        raise ValueError("Player name cannot be empty")
                     else:
                         self.add_player_from_txt(player, int(score))
         else:
