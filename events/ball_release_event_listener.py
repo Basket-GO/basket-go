@@ -87,8 +87,8 @@ class BallReleaseEventListener(EventListener):
                     # re-calculate alpha.
                     alpha = -alpha
                     # update vector.
-                    v.set_x(v.normalize() * cos(alpha) * 0.8)
-                    v.set_y(v.normalize() * sin(alpha) * 0.8)
+                    v.set_x(v.normalize() * cos(alpha) * 0.6)
+                    v.set_y(v.normalize() * sin(alpha) * 0.6)
                 # check if the ball is out of the screen.
                 if x - bw >= w or x + bw <= 0 or (y >= 570 and v.get_y() > -0.05):
                     # reset ball's coordinates.
