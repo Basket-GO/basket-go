@@ -30,6 +30,8 @@ class DragEventListener(EventListener):
             # still update the x axis.
             mouse_y = h - bh / 2
         if pygame.mouse.get_pressed()[0] == True and not ball.is_released():
+            # set the placeholder visible.
+            game.get_window().get_element("placeholder_ball").set_visible(True)
             # update x and y position.
             ball.set_x(mouse_x - 30)
             ball.set_y(mouse_y - 30)
