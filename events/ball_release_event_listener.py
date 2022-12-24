@@ -95,10 +95,15 @@ class BallReleaseEventListener(EventListener):
                 elif v.get_x() < 0:
                         alpha = pi + atan(v.get_y() / v.get_x())
                 if basket_distance[0] <= 35:
-                    if bx[0] - cx <= 0:
-                        omega = pi / 2 if cx < bx[0] else -(pi / 2)
-                    else:
-                        omega = atan((by[0] - cy) / (bx[0] - cx))
+                    ox = cx + 2 * ((bx[0] - cx) / basket_distance[0])
+                    oy = cy + 2 * ((by[0] - cy) / basket_distance[0])
+                    print(ox - cx)
+                    if ox - cx == 0:
+                        omega = pi / 2 if ox > cx else -(pi / 2)
+                    elif ox - cx < 0:
+                        omega = pi + atan((oy - cy) / (ox - cx))
+                    elif ox - cx > 0:
+                        omega = atan((oy - cy) / (ox - cx))
                     alpha = pi + 2 * omega - alpha
                     # update vector.
                     v.set_x(v.normalize() * cos(alpha) * 0.6)
