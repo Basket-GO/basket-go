@@ -1,4 +1,4 @@
-from math import (atan, cos, sin, pi, copysign, tan)
+from math import (atan, cos, sin, pi, copysign, tan, sqrt)
 from events.event_listener import EventListener
 from utils.stoppable_thread import StoppableThread
 from utils.vector import Vector
@@ -44,6 +44,12 @@ class BallReleaseEventListener(EventListener):
         """
         Makes the ball move.
         """
+        # retrieve the first part of the basket.
+        basket_parts = (game.get_window().get_element("basket_part_1"), game.get_window().get_element("basket_part_2"))
+        # retrieve basket width.
+        basket_w = basket_parts[0].get_surface().get_size()[0]
+        # retrieve baskets coordinates.
+        bx, by = (((basket_w / 2 - 2) + basket_parts[0].get_x(), (basket_w / 2 - 2) + basket_parts[1].get_x()), ((basket_w / 2 - 2) + basket_parts[0].get_y(), (basket_w / 2 - 2) + basket_parts[1].get_y()))
         # retrieve the ball.
         ball = game.get_window().get_element("ball")
         # define a delta time.
@@ -51,7 +57,7 @@ class BallReleaseEventListener(EventListener):
         # get the width and the height of the window.
         w, h = pygame.display.get_surface().get_size()
         # get the with and the height of the ball.
-        bw, bh = ball.get_surface().get_size()
+        bw = ball.get_surface().get_size()[0]
         # define the x and y values.
         x, y = ball.get_x(), ball.get_y()
         # define gravitation.
@@ -73,17 +79,42 @@ class BallReleaseEventListener(EventListener):
                 v.set_y(v.get_y() + g * delta_time)
                 # update the ball's current coordinates.
                 x += v.get_x() * delta_time * 60
-                y = v.get_y() * delta_time * 60 + y if (v.get_y() * delta_time * 60) + y < h - bh else h - bh
+                y = v.get_y() * delta_time * 60 + y if (v.get_y() * delta_time * 60) + y < h - bw else h - bw
                 # display the ball.
                 ball.set_x(x)
                 ball.set_y(y)
-                if y + bh >= h:
-                    if v.get_x() == 0:
+                # represents respectively the x and y center of the ball.
+                cx, cy = ((bw / 2 - 2) + ball.get_x(), (bw / 2 - 2) + ball.get_y())
+                # calculate the euclidian distance between the basket and the ball
+                basket_distance = (sqrt(((cx - bx[0]) ** 2) + ((cy - by[0]) ** 2)), sqrt(((cx - bx[1]) ** 2) + ((cy - by[1]) ** 2)))
+                # pre-calculate alpha.
+                if v.get_x() == 0:
                         alpha = copysign(pi / 2, v.get_y())
-                    elif v.get_x() > 0:
+                elif v.get_x() > 0:
                         alpha = atan(v.get_y() / v.get_x())
-                    elif v.get_x() < 0:
+                elif v.get_x() < 0:
                         alpha = pi + atan(v.get_y() / v.get_x())
+                if basket_distance[0] <= 35:
+                    if bx[0] - cx <= 0:
+                        omega = pi / 2 if cx < bx[0] else -(pi / 2)
+                    else:
+                        omega = atan((by[0] - cy) / (bx[0] - cx))
+                    alpha = pi + 2 * omega - alpha
+                    # update vector.
+                    v.set_x(v.normalize() * cos(alpha) * 0.6)
+                    v.set_y(v.normalize() * sin(alpha) * 0.6)
+                elif basket_distance[1] <= 35:
+                    if bx[0] - cx <= 0:
+                        # calculate omega.
+                        omega = pi / 2 if cx < bx[0] else -(pi / 2) 
+                    else:
+                        # calculate omega.
+                        omega = atan((by[1] - y) / (bx[1] - x))
+                    alpha = pi + 2 * omega - alpha
+                    # update vector.
+                    v.set_x(v.normalize() * cos(alpha) * 0.6)
+                    v.set_y(v.normalize() * sin(alpha) * 0.6)
+                if y + bw >= h:
                     # re-calculate alpha.
                     alpha = -alpha
                     # update vector.
