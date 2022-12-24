@@ -43,8 +43,13 @@ class Game():
         # register the ball.
         self.get_window().register_element("ball", Ball(ball, 170, 450))
         # register the placeholder ball.
-        self.get_window().register_element("placeholder_ball",
-                                           Element(placeholder_ball, 170, 450, False))
+        self.get_window().register_element("placeholder_ball", Element(placeholder_ball, 170, 450, False))
+        # TODO REMOVE TEST PURPOSE
+        white_dot = pygame.image.load("img/white_dot.png")
+        white_dot = pygame.transform.scale(white_dot, (20, 20))
+        self.get_window().register_element("basket_part_1", Element(white_dot, 880, 400))
+        self.get_window().register_element("basket_part_2", Element(white_dot, 980, 400))
+        # TODO REMOVE TEST PURPOSE
         # listen to events.
         self.listen(pygame.MOUSEMOTION, DragEventListener(self))
         self.listen(pygame.MOUSEBUTTONUP, BallReleaseEventListener()) 
