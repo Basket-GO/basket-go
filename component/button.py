@@ -14,6 +14,7 @@ class Button(Component):
         # get mouse position
         pos = pygame.mouse.get_pos()
         image = self.__image
+
         # check mouseover and clicked conditions
         if image.get_rect().collidepoint(pos):
             image = self.__hoover
