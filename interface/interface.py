@@ -1,5 +1,5 @@
 import pygame
-import components.button as Button
+import component.button as Button
 
 
 class Interface:

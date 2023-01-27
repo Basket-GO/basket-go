@@ -1,14 +1,14 @@
 import pygame
 import sys
 
-from components.player import Player
+from entity.player import Player
 from element import Element
 from interface.window import Window
-from components.ball import Ball
+from component.ball import Ball
 
-from events.event_listener import EventListener
-from events.drag_event_listener import DragEventListener
-from events.ball_release_event_listener import BallReleaseEventListener
+from event.event_listener import EventListener
+from event.drag_event_listener import DragEventListener
+from event.ball_release_event_listener import BallReleaseEventListener
 
 
 class Game():
@@ -47,7 +47,8 @@ class Game():
                                            Element(placeholder_ball, 170, 450, False))
         # listen to events.
         self.listen(pygame.MOUSEMOTION, DragEventListener(self))
-        self.listen(pygame.MOUSEBUTTONUP, BallReleaseEventListener()) 
+        self.listen(pygame.MOUSEBUTTONUP, BallReleaseEventListener())
+
     def get_window(self) -> Window:
         """
         :return: the game's window.
@@ -71,17 +72,20 @@ class Game():
         Register the given thread into a list.
         """
         self.__threads.append(thread)
+
     def display_fps(self):
         """Show the program's FPS in the window handle."""
-        caption = "{} - FPS: {:.2f}".format("ʙᴀsᴋᴇᴛ ɢᴏ !", self.clock.get_fps())
+        caption = "{} - FPS: {:.2f}".format("ʙᴀsᴋᴇᴛ ɢᴏ !",
+                                            self.clock.get_fps())
         pygame.display.set_caption(caption)
+
     def setup(self):
         """
         Setup the ressources (background image, audio, etc.)
         and listen to all the events built in the game.
         """
         while True:
-            x,y = pygame.mouse.get_pos()
+            x, y = pygame.mouse.get_pos()
             x -= self.cursor.get_width()/2
             y -= self.cursor.get_height()/2
             self.clock.tick(self.fps)
@@ -105,8 +109,8 @@ class Game():
                     if event_pair[0] == event.type:
                         # run the event.
                         event_pair[1].run(event, self)
-            #cursor init
-            self.__screen.blit(self.cursor,(x,y))
+            # cursor init
+            self.__screen.blit(self.cursor, (x, y))
             pygame.display.update()
 
     def listen(self, event_type: int, event_listener: EventListener) -> None:
@@ -126,4 +130,3 @@ class Game():
         Return game's screen.
         """
         return self.__screen
-    

@@ -1,4 +1,4 @@
-from events.event_listener import EventListener
+from event.event_listener import EventListener
 from element import Element
 import pygame
 
@@ -10,14 +10,15 @@ class DragEventListener(EventListener):
         self.__white_dot = pygame.transform.scale(self.__white_dot, (20, 20))
         # pre-register the dots.
         for i in range(20):
-            game.get_window().register_element(("dot_",str(i)), Element(self.__white_dot, 0, 0, False, False))
-    
+            game.get_window().register_element(("dot_", str(i)),
+                                               Element(self.__white_dot, 0, 0, False, False))
+
     def run(self, event, game):
         # retrieve the ball.
         ball = game.get_window().get_element("ball")
         # get the with and the height of the ball.
         bw, bh = ball.get_surface().get_size()
-         # get the width and the height of the window.
+        # get the width and the height of the window.
         h = pygame.display.get_surface().get_size()[1]
         # retrieve mouse position.
         mouse_x, mouse_y = pygame.mouse.get_pos()
