@@ -47,8 +47,8 @@ class Game():
         # TODO REMOVE TEST PURPOSE
         white_dot = pygame.image.load("img/white_dot.png")
         white_dot = pygame.transform.scale(white_dot, (20, 20))
-        self.get_window().register_element("basket_part_1", Element(white_dot, 880, 400))
-        self.get_window().register_element("basket_part_2", Element(white_dot, 980, 400))
+        self.get_window().register_element("basket_part_1", Element(white_dot, 480, 400))
+        self.get_window().register_element("basket_part_2", Element(white_dot, 580, 400))
         # TODO REMOVE TEST PURPOSE
         # listen to events.
         self.listen(pygame.MOUSEMOTION, DragEventListener(self))

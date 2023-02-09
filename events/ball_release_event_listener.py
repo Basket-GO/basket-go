@@ -40,6 +40,20 @@ class BallReleaseEventListener(EventListener):
         # start the thread execution.
         self.__t.start()
 
+    def __arctangente(self, x, y):
+        if y == 0:  # Sur l'axe des ordonnées
+            if x >= 0:
+                return 0
+            else:
+                return pi
+        elif x > 0:  # Premier et quatrième quadrants
+            return -atan(y/x)
+        else:
+            if y > 0:  # Troisième quadrant
+                return atan(x/y) - pi/2
+            else:  # Second quadrant
+                return atan(x/y) + pi/2
+
     def __move_ball(self, game):
         """
         Makes the ball move.
@@ -49,7 +63,7 @@ class BallReleaseEventListener(EventListener):
         # retrieve basket width.
         basket_w = basket_parts[0].get_surface().get_size()[0]
         # retrieve baskets coordinates.
-        bx, by = (((basket_w / 2 - 2) + basket_parts[0].get_x(), (basket_w / 2 - 2) + basket_parts[1].get_x()), ((basket_w / 2 - 2) + basket_parts[0].get_y(), (basket_w / 2 - 2) + basket_parts[1].get_y()))
+        bx, by = (((basket_w / 2) + basket_parts[0].get_x(), (basket_w / 2) + basket_parts[1].get_x()), ((basket_w / 2) + basket_parts[0].get_y(), (basket_w / 2) + basket_parts[1].get_y()))
         # retrieve the ball.
         ball = game.get_window().get_element("ball")
         # define a delta time.
@@ -84,49 +98,52 @@ class BallReleaseEventListener(EventListener):
                 ball.set_x(x)
                 ball.set_y(y)
                 # represents respectively the x and y center of the ball.
-                cx, cy = ((bw / 2 - 2) + ball.get_x(), (bw / 2 - 2) + ball.get_y())
+                cx, cy = ((bw / 2) + ball.get_x(), (bw / 2) + ball.get_y())
                 # calculate the euclidian distance between the basket and the ball
                 basket_distance = (sqrt(((cx - bx[0]) ** 2) + ((cy - by[0]) ** 2)), sqrt(((cx - bx[1]) ** 2) + ((cy - by[1]) ** 2)))
                 # pre-calculate alpha.
                 if v.get_x() == 0:
-                        alpha = copysign(pi / 2, v.get_y())
+                    alpha = copysign(pi / 2, v.get_y())
                 elif v.get_x() > 0:
-                        alpha = atan(v.get_y() / v.get_x())
+                    alpha = self.__arctangente(v.get_x(), v.get_y())
+                    #alpha = atan(v.get_y() / v.get_x())
                 elif v.get_x() < 0:
-                        alpha = pi + atan(v.get_y() / v.get_x())
+                    alpha = pi + self.__arctangente(v.get_x(), v.get_y())
+                    #alpha = pi + atan(v.get_y() / v.get_x())
                 if basket_distance[0] <= 35:
-                    ox = cx + 2 * ((bx[0] - cx) / basket_distance[0])
-                    oy = cy + 2 * ((by[0] - cy) / basket_distance[0])
-                    print(ox - cx)
+                    r = basket_distance[0] / 35
+                    ox = cx + (bx[0] - cx) * r
+                    oy = cy + (by[0] - cy) * r
                     if ox - cx == 0:
-                        omega = pi / 2 if ox > cx else -(pi / 2)
+                        teta = pi / 2 if ox > cx else -(pi / 2)
                     elif ox - cx < 0:
-                        omega = pi + atan((oy - cy) / (ox - cx))
+                        teta = pi + self.__arctangente((ox - cx), (oy - cy))
                     elif ox - cx > 0:
-                        omega = atan((oy - cy) / (ox - cx))
-                    alpha = pi + 2 * omega - alpha
+                        teta = self.__arctangente((ox - cx), (oy - cy))
+                    alpha = pi + 2 * teta - alpha
                     # update vector.
                     v.set_x(v.normalize() * cos(alpha) * 0.6)
-                    v.set_y(v.normalize() * sin(alpha) * 0.6)
-                elif basket_distance[1] <= 35:
+                    v.set_y(-v.normalize() * sin(alpha) * 0.6)
+                    #v.set_y(v.normalize() * sin(alpha) * 0.6)
+                """elif basket_distance[1] <= 35:
                     if bx[0] - cx <= 0:
-                        # calculate omega.
-                        omega = pi / 2 if cx < bx[0] else -(pi / 2) 
+                        # calculate teta.
+                        teta = pi / 2 if cx < bx[0] else -(pi / 2) 
                     else:
-                        # calculate omega.
-                        omega = atan((by[1] - y) / (bx[1] - x))
-                    alpha = pi + 2 * omega - alpha
+                        # calculate teta.
+                        teta = atan((by[1] - y) / (bx[1] - x))
+                    alpha = pi + 2 * teta - alpha
                     # update vector.
                     v.set_x(v.normalize() * cos(alpha) * 0.6)
-                    v.set_y(v.normalize() * sin(alpha) * 0.6)
+                    v.set_y(v.normalize() * sin(alpha) * 0.6)"""
                 if y + bw >= h:
                     # re-calculate alpha.
                     alpha = -alpha
                     # update vector.
                     v.set_x(v.normalize() * cos(alpha) * 0.6)
-                    v.set_y(v.normalize() * sin(alpha) * 0.6)
+                    v.set_y(-v.normalize() * sin(alpha) * 0.6)
                 # check if the ball is out of the screen.
-                if x - bw >= w or x + bw <= 0 or (y >= 570 and v.get_y() > -0.05):
+                if x - bw >= w or x + bw <= 0 or (y >= 570 and v.get_y() < -.03 and v.get_y() > -.05):
                     # reset ball's coordinates.
                     ball.respawn()
                     break
