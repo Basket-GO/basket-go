@@ -9,7 +9,7 @@ from components.ball import Ball
 from events.event_listener import EventListener
 from events.drag_event_listener import DragEventListener
 from events.ball_release_event_listener import BallReleaseEventListener
-
+from events.ball_respawn_event_listener import BallRespawnEventListener
 
 class Game():
     def __init__(self, screen: pygame.Surface, img_location: str, img_name: str, sound_location: str) -> None:
@@ -22,7 +22,7 @@ class Game():
         # set up our window.
         self.__window = Window()
         # game threads.
-        self.__threads = []
+        self.__threads = {}
         self.clock = pygame.time.Clock()
         self.fps = 150
         # get the actual basket ball field.
@@ -47,12 +47,13 @@ class Game():
         # TODO REMOVE TEST PURPOSE
         white_dot = pygame.image.load("img/white_dot.png")
         white_dot = pygame.transform.scale(white_dot, (20, 20))
-        self.get_window().register_element("basket_part_1", Element(white_dot, 480, 400))
-        self.get_window().register_element("basket_part_2", Element(white_dot, 580, 400))
+        self.get_window().register_element("hoop_part_1", Element(white_dot, 480, 400))
+        self.get_window().register_element("hoop_part_2", Element(white_dot, 580, 400))
         # TODO REMOVE TEST PURPOSE
         # listen to events.
         self.listen(pygame.MOUSEMOTION, DragEventListener(self))
-        self.listen(pygame.MOUSEBUTTONUP, BallReleaseEventListener()) 
+        self.listen(pygame.MOUSEBUTTONUP, BallReleaseEventListener())
+        self.listen(pygame.KEYDOWN, BallRespawnEventListener(pygame.K_r))
     def get_window(self) -> Window:
         """
         :return: the game's window.
@@ -71,11 +72,17 @@ class Game():
         # register the player.
         self.__players.append(player)
 
-    def register_thread(self, thread) -> None:
+    def register_thread(self, name:str, thread) -> None:
         """
         Register the given thread into a list.
         """
-        self.__threads.append(thread)
+        self.__threads[name] = thread
+    def get_thread(self, name:str):
+        """
+        Get a thread by its name.
+        Can be None.
+        """
+        return self.__threads[name]
     def display_fps(self):
         """Show the program's FPS in the window handle."""
         caption = "{} - FPS: {:.2f}".format("ʙᴀsᴋᴇᴛ ɢᴏ !", self.clock.get_fps())
@@ -99,8 +106,8 @@ class Game():
                     self.__screen.blit(obj.get()[0], obj.get()[1])
             for event in pygame.event.get():
                 if event.type == pygame.QUIT:
-                    # stop ongoin threads.
-                    for thread in self.__threads:
+                    # stop ongoing threads.
+                    for thread in self.__threads.values():
                         thread.stop()
                     # exit.
                     sys.exit()

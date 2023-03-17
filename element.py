@@ -1,4 +1,5 @@
 from pygame import Surface
+from math import (sqrt, pi, atan)
 
 class Element():
     def __init__(self, surface:Surface, x:int, y:int, visible:bool=True, allow_override:bool=False) -> None:
@@ -74,3 +75,39 @@ class Element():
         :param int y: the y position of the element.
         """
         self.__y = y
+    def center_x(self):
+        """
+        :return: the x center of image.
+        """
+        return (self.get_surface().get_size()[0] / 2) + self.get_x()
+    def center_y(self):
+        """
+        :return: the y center of image.
+        """
+        return (self.get_surface().get_size()[0] / 2) + self.get_y()
+    def distance_two_points(self, x, y, x1, y1):
+        """
+        :return: the euclidian distance between 4 points in the space.
+        :param int x: the x position to compare with.
+        :param int y: the y position to compare with.
+        :param int x1: the x' position to compare with.
+        :param int y1: the y' position to compare with.
+        """
+        return sqrt((x - x1) ** 2) + ((y - y1) ** 2)
+    def distance(self, x, y):
+        """
+        :return: the euclidian distance between this element and x, y coordinates
+        :param int x: the x position to compare with.
+        :param int y: the y position to compare with.
+        :param bool from_center: whether we should calculate the euclidian distance
+        from the center of the surface or not.
+        """
+        return sqrt(((self.center_x() - x) ** 2) + ((self.center_y() - y) ** 2))
+    def distance_element(self, element, from_center:bool):
+        """
+        :return: the euclidian distance between this element and another one.
+        :param Element element: the element to compare with.
+        :param bool from_center: whether we should calculate the euclidian distance
+        from the center of the surface or not.
+        """
+        return self.distance(element.get_x(), element.get_y()) if not from_center else self.distance(element.center_x(), element.center_y())

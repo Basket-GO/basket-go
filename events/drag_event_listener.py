@@ -1,5 +1,6 @@
 from events.event_listener import EventListener
 from element import Element
+from components.basket import Basket
 import pygame
 
 
@@ -13,8 +14,14 @@ class DragEventListener(EventListener):
             game.get_window().register_element(("dot_",str(i)), Element(self.__white_dot, 0, 0, False, False))
     
     def run(self, event, game):
+        # TODO REMOVE TESTING PURPOSE
+        # retrieve the first part of the basket.
+        basket = Basket(game.get_window().get_element("hoop_part_1"), game.get_window().get_element("hoop_part_2"))
+        # retrieve baskets coordinates.
+        bx, by = ((basket.hoops()[0].center_x(), basket.hoops()[1].center_x()), (basket.hoops()[0].center_y(), basket.hoops()[1].center_y()))
         # retrieve the ball.
         ball = game.get_window().get_element("ball")
+        #print(ball.distance(bx[0], by[0]))
         # get the with and the height of the ball.
         bw, bh = ball.get_surface().get_size()
          # get the width and the height of the window.
