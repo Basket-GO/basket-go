@@ -64,7 +64,7 @@ class BallReleaseEventListener(EventListener):
         Makes the ball move.
         """
         # retrieve the first part of the basket.
-        basket = Basket(game.get_window().get_element("hoop_part_1"), game.get_window().get_element("hoop_part_2"))
+        basket = game.get_window().get_element("basket")
         # retrieve baskets coordinates.
         bx, by = ((basket.hoops()[0].center_x(), basket.hoops()[1].center_x()), (basket.hoops()[0].center_y(), basket.hoops()[1].center_y()))
         # retrieve the ball.
@@ -84,7 +84,6 @@ class BallReleaseEventListener(EventListener):
         vx, vy = 0.1 * (ball.get_initial_x() - ball.get_x()
                         ), 0.1 * (ball.get_initial_y() - ball.get_y())
         
-        #vx, vy = 0, 0
         # define our vector
         v = Vector(vx, vy)
         # define our reference time.
@@ -105,13 +104,16 @@ class BallReleaseEventListener(EventListener):
                 elif v.get_x() > 0:
                     alpha = self.__arctan(v.get_x(), v.get_y())
                 elif v.get_x() < 0:
-                    alpha = pi + self.__arctan(v.get_x(), v.get_y())
+                    alpha = self.__arctan(v.get_x(), v.get_y())
                 # calculate the future x coordinate of the ball.
                 x_prime += v.get_x() * delta_time * 60
                 # calculate the future y coordinate of the ball.
                 y_prime = v.get_y() * delta_time * 60 + y_prime if (v.get_y() * delta_time * 60) + y_prime < h - bw // 2 else h - bw // 2
+                if y_prime + bw // 2 < h:
+                    ball.set_grnd_rebounced(False)
                 # check if the ball touches the ground.
-                if y_prime + bw // 2 >= h:
+                if y_prime + bw // 2 >= h and not ball.has_grnd_rebounced():
+                    ball.set_grnd_rebounced(True)
                     alpha = ball.rebounce(x_prime, h, alpha)
                     # update vector.
                     v.set_x(v.normalize() * cos(alpha) * absorption)
