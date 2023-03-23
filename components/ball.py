@@ -8,6 +8,7 @@ class Ball(Element):
         # this states whether the ball is released or not.
         self.__is_released = False
         self.__has_rebounced = False
+        self.__has_grnd_rebounced = False
     def is_released(self) -> bool:
         """
         :return: whether the ball is released or not.
@@ -65,3 +66,7 @@ class Ball(Element):
         return self.__has_rebounced
     def set_rebounced(self, has_rebounced:bool):
         self.__has_rebounced = has_rebounced
+    def has_grnd_rebounced(self):
+        return self.__has_grnd_rebounced
+    def set_grnd_rebounced(self, has_grnd_rebounced:bool):
+        self.__has_grnd_rebounced = has_grnd_rebounced
