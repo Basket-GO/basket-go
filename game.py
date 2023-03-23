@@ -5,6 +5,7 @@ from components.player import Player
 from element import Element
 from interface.window import Window
 from components.ball import Ball
+from components.basket import Basket
 
 from events.event_listener import EventListener
 from events.drag_event_listener import DragEventListener
@@ -44,12 +45,12 @@ class Game():
         self.get_window().register_element("ball", Ball(ball, 170, 450))
         # register the placeholder ball.
         self.get_window().register_element("placeholder_ball", Element(placeholder_ball, 170, 450, False))
-        # TODO REMOVE TEST PURPOSE
         white_dot = pygame.image.load("img/white_dot.png")
         white_dot = pygame.transform.scale(white_dot, (20, 20))
-        self.get_window().register_element("hoop_part_1", Element(white_dot, 480, 400))
-        self.get_window().register_element("hoop_part_2", Element(white_dot, 580, 400))
-        # TODO REMOVE TEST PURPOSE
+        basket = pygame.image.load("img/Panier.png")
+        basket = pygame.transform.scale(basket, (300, 300))
+        # register basket.
+        self.get_window().register_element("basket", Basket(Element(basket, 480, 400), Element(white_dot, 500, 400), Element(white_dot, 580, 400)))
         # listen to events.
         self.listen(pygame.MOUSEMOTION, DragEventListener(self))
         self.listen(pygame.MOUSEBUTTONUP, BallReleaseEventListener())
