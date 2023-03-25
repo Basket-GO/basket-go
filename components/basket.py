@@ -8,8 +8,8 @@ class Basket(Element):
         self.__first_hoop = first_hoop
         self.__second_hoop = second_hoop
         # make the hoops invisible.
-        self.__first_hoop.set_visible(False)
-        self.__second_hoop.set_visible(False)
+        self.__first_hoop.set_visible(True)
+        self.__second_hoop.set_visible(True)
     def hoops(self):
         """
         :return: the two parts of the basket.
