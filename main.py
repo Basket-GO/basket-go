@@ -53,7 +53,7 @@ while is_running:
         game.register_player("Yanis")
         # setup the game.
         game.setup()
-    #if exit_button was clicked or selected and press enter
+    # if exit_button was clicked or selected and press enter
     if exit_button.draw_and_clicked(window) or press2 == True:
         pygame.quit()
         sys.exit()
