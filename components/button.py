@@ -12,7 +12,7 @@ class Button():
 
         self.hovered = False
         self.hover_sound = pygame.mixer.Sound("./sound/blipshort1.wav")
-
+        pygame.mixer.Sound.set_volume(self.hover_sound, 0.008)
     def draw_and_clicked(self, surface):
         """ write button and return action"""
         action = False

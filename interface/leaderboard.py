@@ -17,7 +17,7 @@ class Leaderboard:
         """
         if player in self.leaderboard:
             raise ValueError("Player already exists")
-        elif len(player) > 10:
+        elif len(player) > 6:
             raise ValueError("Player name too long")
         elif len(player) == 0:
             raise ValueError("Player name cannot be empty")
@@ -36,7 +36,7 @@ class Leaderboard:
         """
         if player in self.leaderboard:
             raise ValueError("Player already exists")
-        elif len(player) > 10:
+        elif len(player) > 6:
             raise ValueError("Player name too long")
         elif len(player) == 0:
             raise ValueError("Player name cannot be empty")
@@ -52,7 +52,7 @@ class Leaderboard:
             with open(self.path, "r") as file:
                 for line in file:
                     player, score = line.split(":")
-                    if len(player) > 10:
+                    if len(player) > 6:
                         raise ValueError("Player name too long")
                     elif len(player) == 0:
                         raise ValueError("Player name cannot be empty")
@@ -108,5 +108,5 @@ class Leaderboard:
 
         listSorted = sorted(self.leaderboard.items(),
                             key=lambda x: x[1], reverse=True)
-        # return only the 5 first entry
-        return listSorted[:5]
+        # return only the 4 first entry
+        return listSorted[:4]

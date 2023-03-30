@@ -31,6 +31,8 @@ class Game():
         field2 = pygame.image.load(
             img_location + "terrain_basket_public_2.png")
         field2 = pygame.transform.scale(field2, (1024, 640))
+        panier = pygame.image.load(img_location + "panier.png")
+        panier = pygame.transform.scale(panier, (100,73))
         self.field = field
         self.field2 = field2
         # get the cursor
@@ -48,6 +50,7 @@ class Game():
         # register the placeholder ball.
         self.get_window().register_element("placeholder_ball",
                                            Element(placeholder_ball, 170, 450))
+        self.get_window().register_element("panier", Element(panier, 700, 300))
         # listen to events.
         self.listen(pygame.MOUSEMOTION, DragEventListener(self))
         self.listen(pygame.MOUSEBUTTONUP, BallReleaseEventListener())
