@@ -180,14 +180,9 @@ while is_running:
                     color2 = color_passive
 
             if back_btn.draw_and_clicked(window,event):
-                press3 = False
                 menu_state = "main"
             if save_btn.draw_and_clicked(window,event):
                 menu_state = "main"
-                press4 = False
-            """if sound_btn.draw_and_clicked(window)  :
-                print("good")
-                time.sleep(0.1)"""
             
             window.blit(cursor_init,(x,y))
             # draw rectangle and argument passed which should
