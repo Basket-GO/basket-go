@@ -28,13 +28,14 @@ class Game():
         # get the actual basket ball field.
         field = pygame.image.load(img_location + "terrain_basket_public.png")
         field = pygame.transform.scale(field, (1024, 640))
-        field2 = pygame.image.load(img_location +"terrain_basket_public_2.png")
+        field2 = pygame.image.load(
+            img_location + "terrain_basket_public_2.png")
         field2 = pygame.transform.scale(field2, (1024, 640))
         panier = pygame.image.load(img_location + "panier.png")
         panier = pygame.transform.scale(panier, (100,73))
         self.field = field
         self.field2 = field2
-        #get the cursor
+        # get the cursor
         cursor_init = pygame.image.load("img/cursor.png").convert_alpha()
         self.cursor = cursor_init
         # get the actual ball.
@@ -52,7 +53,8 @@ class Game():
         self.get_window().register_element("panier", Element(panier, 700, 300))
         # listen to events.
         self.listen(pygame.MOUSEMOTION, DragEventListener(self))
-        self.listen(pygame.MOUSEBUTTONUP, BallReleaseEventListener()) 
+        self.listen(pygame.MOUSEBUTTONUP, BallReleaseEventListener())
+
     def get_window(self) -> Window:
         """
         :return: the game's window.
@@ -76,17 +78,20 @@ class Game():
         Register the given thread into a list.
         """
         self.__threads.append(thread)
+
     def display_fps(self):
         """Show the program's FPS in the window handle."""
-        caption = "{} - FPS: {:.2f}".format("ʙᴀsᴋᴇᴛ ɢᴏ !", self.clock.get_fps())
+        caption = "{} - FPS: {:.2f}".format("ʙᴀsᴋᴇᴛ ɢᴏ !",
+                                            self.clock.get_fps())
         pygame.display.set_caption(caption)
+
     def setup(self):
         """
         Setup the ressources (background image, audio, etc.)
         and listen to all the events built in the game.
         """
         while True:
-            x,y = pygame.mouse.get_pos()
+            x, y = pygame.mouse.get_pos()
             x -= self.cursor.get_width()/2-5
             y -= self.cursor.get_height()/2-8
             self.clock.tick(self.fps)
@@ -110,8 +115,8 @@ class Game():
                     if event_pair[0] == event.type:
                         # run the event.
                         event_pair[1].run(event, self)
-            #cursor init
-            self.__screen.blit(self.cursor,(x,y))
+            # cursor init
+            self.__screen.blit(self.cursor, (x, y))
             pygame.display.update()
 
     def listen(self, event_type: int, event_listener: EventListener) -> None:
@@ -131,4 +136,3 @@ class Game():
         Return game's screen.
         """
         return self.__screen
-    
