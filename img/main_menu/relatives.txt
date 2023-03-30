@@ -1,2 +1,0 @@
-# x,y,scale,is_visible,allow_override
-button_hover="10,100,1,false,false"
