@@ -4,19 +4,31 @@ import pygame
 
 
 class DragEventListener(EventListener):
-    def __init__(self, game) -> None:
+    def __init__(self, game: pygame.surface) -> None:
+        """Drag event listener.
+
+        Args:
+            game (pygame.surface): The game where the event listener is registered.
+        """
         super().__init__()
         self.__white_dot = pygame.image.load("img/basket-ball/white_dot.png")
         # pre-register the dots.
         for i in range(20):
-            game.get_window().register_element(("dot_",str(i)), Element(self.__white_dot, 0, 0, False, False))
-    
-    def run(self, event, game):
+            game.get_window().register_element(("dot_", str(i)),
+                                               Element(self.__white_dot, 0, 0, False, False))
+
+    def run(self, event: pygame.event.Event, game: pygame.surface):
+        """Run the event listener.
+
+        Args:
+            event (pygame.event.Event): The event to listen to.
+            game (pygame.surface): The game where the event listener is registered.
+        """
         # retrieve the ball.
         ball = game.get_window().get_element("ball")
         # get the with and the height of the ball.
         bw, bh = ball.get_surface().get_size()
-         # get the width and the height of the window.
+        # get the width and the height of the window.
         h = pygame.display.get_surface().get_size()[1]
         # retrieve mouse position.
         mouse_x, mouse_y = pygame.mouse.get_pos()
