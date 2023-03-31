@@ -1,6 +1,7 @@
 class EventListener():
     def __init__(self) -> None:
         pass
+
     def run(self, event, game):
         """
         Oriented Object Observer

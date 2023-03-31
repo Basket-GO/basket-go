@@ -8,9 +8,17 @@ import pygame
 
 class BallReleaseEventListener(EventListener):
     def __init__(self) -> None:
+        """Ball release event listener.
+        """
         super().__init__()
 
-    def run(self, event, game):
+    def run(self, event: pygame.event.Event, game):
+        """Run the event listener.
+
+        Args:
+            event (pygame.event.Event): The event to listen to.
+            game (_type_): The game instance.
+        """
         # retrieve the ball.
         ball = game.get_window().get_element("ball")
         # check if the ball is already released.
@@ -25,14 +33,14 @@ class BallReleaseEventListener(EventListener):
             ball.respawn()
             # clear dots.
             for i in range(20):
-                window.get_element(("dot_",str(i))).set_visible(False)
+                window.get_element(("dot_", str(i))).set_visible(False)
             return
         ball.set_released(True)
         # disable ball.
         placeholder_ball.set_visible(False)
         # clear dots.
         for i in range(20):
-            window.get_element(("dot_",str(i))).set_visible(False)
+            window.get_element(("dot_", str(i))).set_visible(False)
         # launch new thread.
         self.__t = StoppableThread(target=self.__move_ball, args=(game,))
         # register the thread in order to be able to kill it.
@@ -40,9 +48,11 @@ class BallReleaseEventListener(EventListener):
         # start the thread execution.
         self.__t.start()
 
-    def __move_ball(self, game):
-        """
-        Makes the ball move.
+    def __move_ball(self, game: pygame.Surface):
+        """Move the ball.
+
+        Args:
+            game (pygame.Surface): The game instance.
         """
         # retrieve the ball.
         ball = game.get_window().get_element("ball")
@@ -73,7 +83,8 @@ class BallReleaseEventListener(EventListener):
                 v.set_y(v.get_y() + g * delta_time)
                 # update the ball's current coordinates.
                 x += v.get_x() * delta_time * 60
-                y = v.get_y() * delta_time * 60 + y if (v.get_y() * delta_time * 60) + y < h - bh else h - bh
+                y = v.get_y() * delta_time * 60 + y if (v.get_y() *
+                                                        delta_time * 60) + y < h - bh else h - bh
                 # display the ball.
                 ball.set_x(x)
                 ball.set_y(y)
