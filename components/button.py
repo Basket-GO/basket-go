@@ -22,11 +22,11 @@ class Button():
             image2, (int(width * scale), int(height * scale)))
         self.rect = self.image.get_rect()
         self.rect.topleft = (x, y)
-
-        self.hovered = False
-        self.hover_sound = pygame.mixer.Sound("./sound/blipshort1.wav")
-        pygame.mixer.Sound.set_volume(self.hover_sound, 0.008)
-
+        self.action_music = False
+        self.hover_sound = pygame.mixer.Sound("./sound/blipshort1.mp3")
+        pygame.mixer.Sound.set_volume(self.hover_sound, 0.08)
+        self.enter_sound = pygame.mixer.Sound("./sound/blip2.mp3")
+        pygame.mixer.Sound.set_volume(self.enter_sound, 0.30)
     def draw_and_clicked(self, surface: pygame.surface.Surface, event: pygame.event.Event) -> bool:
         """Draw the button on the screen and check if it is clicked.
 
@@ -43,20 +43,21 @@ class Button():
         pos = pygame.mouse.get_pos()
         # check mouseover and clicked conditions
         if self.rect.collidepoint(pos):
-            if not self.hovered:
-                self.hovered = True
-                if self.hovered:
-                    self.hover_sound.play()
+            if self.action_music == True:
+                self.hover_sound.play()
+                self.action_music = False
             image = self.image2
             if event.type == pygame.KEYDOWN:
                 if event.key == pygame.K_RETURN:
                     action = True
+                    self.enter_sound.play()
                     time.sleep(0.1)
             elif pygame.mouse.get_pressed()[0] == 1:
                 action = True
+                self.enter_sound.play()
                 time.sleep(0.1)
         else:
-            self.hovered = False
+            self.action_music = True
 
         # draw button on screen
         surface.blit(image, (self.rect.x, self.rect.y))
