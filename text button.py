@@ -20,12 +20,6 @@ window = pygame.display.set_mode((1024,640))
 fond = pygame.image.load('./img/main_menu/background/bg.png')
 pygame.mouse.set_pos((fond.get_width()/2,fond.get_height()/2))
 
-# Define the police
-font = pygame.font.Font('Comicy.ttf', 43)
-font2 = pygame.font.Font('Comicy.ttf', 70)
-font3 = pygame.font.Font('Comicy.ttf', 60)
-base_font = pygame.font.Font('Comicy.ttf', 26)
-base_font2 = pygame.font.Font('Comicy.ttf', 10)
 #load button images
 start_img = pygame.image.load('./img/main_menu/buttons/start_btn.png')
 exit_img = pygame.image.load('./img/main_menu/buttons/exit_btn.png')
@@ -64,8 +58,12 @@ leaderboard.import_player_from_txt()
 leaderboard_data = leaderboard.get_leaderboard_rank()
 ##########################################################"
 # basic font for user typed
-base_font = pygame.font.Font('Comicy.ttf', 26)
-base_font2 = pygame.font.Font('Comicy.ttf', 12)
+# Define the police
+font = pygame.font.Font('fonts/Comicy.ttf', 43)
+font2 = pygame.font.Font('fonts/Comicy.ttf', 70)
+font3 = pygame.font.Font('fonts/Comicy.ttf', 60)
+base_font = pygame.font.Font('fonts/Comicy.ttf', 26)
+base_font2 = pygame.font.Font('fonts/Comicy.ttf', 12)
 user_text = ''
 key_text = ''
 # create rectangle
@@ -124,7 +122,7 @@ while is_running:
         #check if the options menu is open
     if menu_state == "options":
         #draw the different options buttons
-        if Leader == False :
+        #if Leader == False :
             fond = pygame.image.load('./img/option_menu/background/bg.png')
             if back_btn.draw_and_clicked(window,event):
                 menu_state = "main"
@@ -195,32 +193,7 @@ while is_running:
             # outside of user's text input
             input_rect.w = max(200, text_surface.get_width()+10)
             input_rect2.w = max(200, text_surface.get_width()+10)
-        else:
-            fond = pygame.image.load('./img/leaderboard_menu/background/bg.png')
-            # get all player by score in a dict
-            textLeader = font2.render("LEADERBOARD", True, (255, 255, 255))
-            textPlayer = font3.render("PLAYER", True, (45, 130, 211))
-            textScore = font3.render("SCORE", True, (45, 130, 211))
-            # Print the leaderboard from leaderboard_data
-            for i in range(0, len(leaderboard_data)):
-                text = font.render(
-                    leaderboard_data[i][0], True, (255, 255, 255))
-                window.blit(text, (262, 290+i*50))
-                text = font.render(
-                    str(leaderboard_data[i][1]), True, (255, 255, 255))
-                window.blit(text, (620, 290+i*50))
-
-            window.blit(textPlayer, (220, 230))
-            window.blit(textScore, (578, 230))
-            window.blit(textLeader, (240, 90))
-            if back_btn2.draw_and_clicked(window,event):
-                menu_state = "main"
-            for event in pygame.event.get():
-                if event.type == pygame.QUIT:
-                    pygame.quit()
-                    sys.exit()
-                if event.type == pygame.KEYDOWN:
-                    button.Button.parcourir(dict_pos,"leaderboard",MOUSE_POS,event)
+        
     window.blit(cursor_init,(x,y))
     pygame.display.update()
     clock.tick(60)

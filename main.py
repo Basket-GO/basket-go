@@ -20,12 +20,6 @@ window = pygame.display.set_mode((1024, 640))
 fond = pygame.image.load('./img/main_menu/background/bg.png')
 pygame.mouse.set_pos((fond.get_width()/2, fond.get_height()/2))
 
-# Define the police
-font = pygame.font.Font('fonts/Comicy.ttf', 43)
-font2 = pygame.font.Font('fonts/Comicy.ttf', 70)
-font3 = pygame.font.Font('fonts/Comicy.ttf', 60)
-base_font = pygame.font.Font('fonts/Comicy.ttf', 26)
-base_font2 = pygame.font.Font('fonts/Comicy.ttf', 10)
 # load button images
 start_img = pygame.image.load('./img/main_menu/buttons/start_btn.png')
 exit_img = pygame.image.load('./img/main_menu/buttons/exit_btn.png')
@@ -59,8 +53,12 @@ is_running = True
 # set leaderboard
 leaderboard.import_player_from_txt()
 leaderboard_data = leaderboard.get_leaderboard_rank()
-# "
+##########################################################
 # basic font for user typed
+# Define the police
+font = pygame.font.Font('fonts/Comicy.ttf', 43)
+font2 = pygame.font.Font('fonts/Comicy.ttf', 70)
+font3 = pygame.font.Font('fonts/Comicy.ttf', 60)
 base_font = pygame.font.Font('fonts/Comicy.ttf', 26)
 base_font2 = pygame.font.Font('fonts/Comicy.ttf', 12)
 user_text = ''
