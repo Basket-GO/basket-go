@@ -3,7 +3,7 @@ import random
 import components.button as button
 import sys
 from game import Game
-import time
+
 
 from interface.leaderboard import Leaderboard
 leaderboard = Leaderboard("./utils/leaderboard.txt")
@@ -35,6 +35,10 @@ back_img = pygame.image.load('./img/option_menu/buttons/back_btn.png')
 back_img_hov = pygame.image.load('./img/option_menu/buttons/back_btn_hov.png')
 save_img = pygame.image.load('./img/option_menu/buttons/save_btn.png')
 save_img_hov = pygame.image.load('./img/option_menu/buttons/save_btn_hov.png')
+sound_img = pygame.image.load('./img/option_menu/buttons/sound_btn.png')
+sound_img_hov = pygame.image.load('./img/option_menu/buttons/sound_btn_hov.png')
+sound_minus_img = pygame.image.load('./img/option_menu/buttons/sound_minus_btn.png')
+sound_minus_img_hov = pygame.image.load('./img/option_menu/buttons/sound_minus_btn_hov.png')
 #create button instances
 start_button = button.Button(397, 390, start_img, start_img_hov, 1)
 exit_button = button.Button(412, 500, exit_img, exit_img_hov, 1)
@@ -44,6 +48,10 @@ gear_btn = button.Button(17,550, gear_img, gear_img_hov,1)
 back_btn = button.Button (612,500, back_img, back_img_hov,1)
 back_btn2 = button.Button (412,500, back_img, back_img_hov,1)
 save_btn = button.Button (212,500, save_img, save_img_hov,1)
+sound_btn = button.Button (490,428, sound_img , sound_img_hov,0.5)
+sound2_btn = button.Button (780,428, sound_img , sound_img_hov,0.5)
+sound_minus_btn = button.Button (305,438, sound_minus_img , sound_minus_img_hov,0.5)
+sound2_minus_btn = button.Button (595,438, sound_minus_img , sound_minus_img_hov,0.5)
 clock = pygame.time.Clock()
 #game variables
 menu_state = "main"
@@ -87,6 +95,8 @@ cursor_init = pygame.image.load(cursor).convert_alpha()
 pygame.mouse.set_visible(False)
 dict_pos = {"main1":[(513,438),(513,547)],"main2":[(58,593),(887,589),(971,590)],"option":[(320,550),(712,550)],"leaderboard":[(513,547)],"shop":[],}
 
+sound = pygame.Rect(337, 434, 75, 20)
+sound2 = pygame.Rect(627, 434, 75, 20)
 while is_running:
     MOUSE_POS = pygame.mouse.get_pos()
     x,y = pygame.mouse.get_pos()
@@ -94,106 +104,21 @@ while is_running:
     y -= cursor_init.get_height()/2-8
     #blit background
     window.blit(fond,(0,0))
-    #check if game is paused
-    if menu_state == "main":
-        fond = pygame.image.load('./img/main_menu/background/bg.png')
-        for event in pygame.event.get():
-            if event.type == pygame.QUIT:
-                pygame.quit()
-                sys.exit()
-            if event.type == pygame.KEYDOWN:
-                button.Button.parcourir(dict_pos,"main1",MOUSE_POS,event)
-
-        if leader_btn.draw_and_clicked(window,event) :
-            print("leader")
-            menu_state = "options"
-            Leader = True
-        if shop_btn.draw_and_clicked(window,event) :
-            print("shop")
-        #if start_button was clicked or selected and press enter
-        if start_button.draw_and_clicked(window,event):
-            print("start")
-        if exit_button.draw_and_clicked(window,event):
-            print("exit")
-        if gear_btn.draw_and_clicked(window,event) :
-            print("option")
-            menu_state = "options"
-            Leader = False
-        #check if the options menu is open
-    if menu_state == "options":
-        #draw the different options buttons
-        #if Leader == False :
-            fond = pygame.image.load('./img/option_menu/background/bg.png')
-            if back_btn.draw_and_clicked(window,event):
-                menu_state = "main"
-            if save_btn.draw_and_clicked(window,event):
-                menu_state = "main"
-            for event in pygame.event.get():
-                if event.type == pygame.QUIT:
-                    pygame.quit()
-                    sys.exit()
-                if event.type == pygame.KEYDOWN:
-                    button.Button.parcourir(dict_pos,"option",MOUSE_POS,event)
-
-                if event.type == pygame.MOUSEBUTTONDOWN:
-                    if input_rect.collidepoint(event.pos):
-                        active = True
-                    else:
-                        active = False
-                    if input_rect2.collidepoint(event.pos):
-                        active2 = True
-                    else :
-                        active2 = False
-                if active == True :
-                    color = color_active
-                    if event.type == pygame.KEYDOWN:
-                        # Check for backspace
-                        if event.key == pygame.K_BACKSPACE:
-                            # get text input from 0 to -1 i.e. end.
-                            user_text = user_text[:-1]
-                            # Unicode standard is used for string
-                            # formation
-                        else:
-                            if event.key <= 122 and event.key >= 97 :
-                                if len(user_text) < 6 :
-                                    user_text += event.unicode
-                else:
-                    color = color_passive
-                    
-                if active2 == True :
-                    color2= color_active
-                    if event.type == pygame.KEYDOWN:
-                        # Check for backspace
-                        if event.key == pygame.K_BACKSPACE:
-                            # get text input from 0 to -1 i.e. end.
-                            key_text = key_text[:-1]
-                            # Unicode standard is used for string
-                            # formation
-                        else:
-                            if len(key_text) < 1 :
-                                key_text += event.unicode
-                else:
-                    color2 = color_passive
-            window.blit(cursor_init,(x,y))
-            # draw rectangle and argument passed which should
-            # be on screen
-            pygame.draw.rect(window, color, input_rect)
-            pygame.draw.rect(window, color2, input_rect2)
-            text_surface = base_font.render(user_text, True, (255, 255, 255))
-            text_surface2 = base_font.render(key_text, True, (255, 255, 255))
-            # render at position stated in arguments
-            window.blit(text_surface, (input_rect.x+5, input_rect.y+3))
-            window.blit(text_surface2, (input_rect2.x+90, input_rect2.y+3))
-            
-            if not active == True and not len(user_text) != 0 :
-                window.blit(base_font2.render(text_on_user, True, (255, 255, 255)), (input_rect.x+12, input_rect.y+10))
-            if not active2 == True and not len(key_text) != 0 :
-                window.blit(base_font2.render(text_on_key, True, (255, 255, 255)), (input_rect2.x+12, input_rect2.y+10))
-            # set width of textfield so that text cannot get
-            # outside of user's text input
-            input_rect.w = max(200, text_surface.get_width()+10)
-            input_rect2.w = max(200, text_surface.get_width()+10)
-        
+    #draw the different options buttons
+    #if Leader == False :
+    fond = pygame.image.load('./img/option_menu/background/bg.png')
+    for event in pygame.event.get():
+        if event.type == pygame.QUIT:
+            pygame.quit()
+            sys.exit()
+        if event.type == pygame.KEYDOWN:    
+            button.Button.parcourir(dict_pos,"option",MOUSE_POS,event)
+    if back_btn.draw_and_clicked(window,event):
+        pass
+    if save_btn.draw_and_clicked(window,event):
+        pass
+    pygame.draw.rect(window,(255, 255, 255), sound)
+    pygame.draw.rect(window,(255, 255, 255), sound2)
     window.blit(cursor_init,(x,y))
     pygame.display.update()
     clock.tick(60)

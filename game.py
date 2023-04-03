@@ -12,7 +12,7 @@ from events.ball_release_event_listener import BallReleaseEventListener
 
 
 class Game():
-    def __init__(self, screen: pygame.Surface, img_location: str, img_name: str, sound_location: str) -> None:
+    def __init__(self, screen: pygame.Surface, img_location: str, img_name: str,img_terrain :str, sound_location: str) -> None:
         # get the actual display screen.
         self.__screen = screen
         # set up playing players.
@@ -26,15 +26,10 @@ class Game():
         self.clock = pygame.time.Clock()
         self.fps = 150
         # get the actual basket ball field.
-        field = pygame.image.load(img_location + "terrain_basket_public.png")
-        field = pygame.transform.scale(field, (1024, 640))
-        field2 = pygame.image.load(
-            img_location + "terrain_basket_public_2.png")
-        field2 = pygame.transform.scale(field2, (1024, 640))
+        field = pygame.image.load(img_location + img_terrain+".jpg")
+        spec = pygame.image.load(img_location + "spec.png")
         panier = pygame.image.load(img_location + "panier.png")
-        panier = pygame.transform.scale(panier, (100,73))
         self.field = field
-        self.field2 = field2
         # get the cursor
         cursor_init = pygame.image.load("img/cursor.png").convert_alpha()
         self.cursor = cursor_init
@@ -44,7 +39,8 @@ class Game():
         placeholder_ball = pygame.image.load(
             img_location + img_name+"-placeholder.png")
         # register the field without public.
-        self.get_window().register_element("field", Element(field2, 0, 0))
+        self.get_window().register_element("field", Element(field, 0, 0))
+        #self.get_window().register_element("spec", Element(spec, 0, 0))
         # register the ball.
         self.get_window().register_element("ball", Ball(ball, 170, 450))
         # register the placeholder ball.

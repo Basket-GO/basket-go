@@ -61,7 +61,6 @@ class Button():
 
         # draw button on screen
         surface.blit(image, (self.rect.x, self.rect.y))
-
         return action
 
     def parcourir(dict_pos: dict, location: str, MOUSE_POS: tuple, event: pygame.event.Event) -> tuple:

@@ -3,7 +3,7 @@ import random
 import components.button as button
 import sys
 from game import Game
-import time
+
 
 from interface.leaderboard import Leaderboard
 leaderboard = Leaderboard("./utils/leaderboard.txt")
@@ -84,7 +84,17 @@ cursor_init = pygame.image.load(cursor).convert_alpha()
 pygame.mouse.set_visible(False)
 dict_pos = {"main1": [(513, 438), (513, 547)], "main2": [(58, 593), (887, 589), (971, 590)],
             "option": [(320, 550), (712, 550)], "leaderboard": [(513, 547)], "shop": [], }
-
+#set sound
+sound_img = pygame.image.load('./img/option_menu/buttons/sound_btn.png')
+sound_img_hov = pygame.image.load('./img/option_menu/buttons/sound_btn_hov.png')
+sound_minus_img = pygame.image.load('./img/option_menu/buttons/sound_minus_btn.png')
+sound_minus_img_hov = pygame.image.load('./img/option_menu/buttons/sound_minus_btn_hov.png')
+sound_btn = button.Button (490,428, sound_img , sound_img_hov,0.5)
+sound2_btn = button.Button (780,428, sound_img , sound_img_hov,0.5)
+sound_minus_btn = button.Button (305,438, sound_minus_img , sound_minus_img_hov,0.5)
+sound2_minus_btn = button.Button (595,438, sound_minus_img , sound_minus_img_hov,0.5)
+sound = pygame.Rect(337, 434, 75, 20)
+sound2 = pygame.Rect(627, 434, 75, 20)
 while is_running:
     MOUSE_POS = pygame.mouse.get_pos()
     x, y = pygame.mouse.get_pos()
@@ -111,9 +121,11 @@ while is_running:
         if start_button.draw_and_clicked(window, event):
             image = ["flame", "mountains", "pink",
                      "basket-ball", "smile", "military"]
+            image_terrain = ["IMG","IMG2","IMG3"]
+            i_bis = random.randint(0, 2)
             i = random.randint(0, 5)
             # create a new instance of the Game.
-            game = Game(window, "img/basket-ball/", image[i], None)
+            game = Game(window, "img/basket-ball/", image[i], image_terrain[i_bis], None)
             # register dummy player.
             game.register_player("Yanis")
             # setup the game.
@@ -183,8 +195,28 @@ while is_running:
                 menu_state = "main"
             if save_btn.draw_and_clicked(window, event):
                 menu_state = "main"
-            
-            window.blit(cursor_init,(x,y))
+                sound_music = ((sound.w * 2)/3)/100
+                sound_effect = ((sound2.w * 2)/3)/100
+                print(sound_music,sound_effect)
+                # option(key_text,user_text,sound_music,sound_effect)
+            if sound_btn.draw_and_clicked(window,event) :
+                if 150 > sound.w >= 0 :
+                    sound.w += 15
+                print(sound.w)
+            if sound_minus_btn.draw_and_clicked(window,event):
+                if 150 >= sound.w >= 10 :
+                    sound.w -= 15
+                print(sound.w)
+            if sound2_btn.draw_and_clicked(window,event) :
+                if 150 > sound2.w >= 0 :
+                    sound2.w += 15
+                print(sound2.w)
+            if sound2_minus_btn.draw_and_clicked(window,event):
+                if 150 >= sound2.w >= 10 :
+                    sound2.w -= 15
+                print(sound2.w)
+            pygame.draw.rect(window,(255, 255, 255), sound)
+            pygame.draw.rect(window,(255, 255, 255), sound2)
             # draw rectangle and argument passed which should
             # be on screen
             pygame.draw.rect(window, color, input_rect)
