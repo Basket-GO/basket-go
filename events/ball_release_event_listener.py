@@ -76,7 +76,7 @@ class BallReleaseEventListener(EventListener):
         # define the absorption
         absorption = 0.8
         # get the width and the height of the window.
-        h = pygame.display.get_surface().get_size()[1]
+        w, h = pygame.display.get_surface().get_size()[0], pygame.display.get_surface().get_size()[1]
         # get the with and the height of the ball.
         bw = ball.get_surface().get_size()[0]
         # define gravitation.
@@ -163,6 +163,10 @@ class BallReleaseEventListener(EventListener):
                             break
                 # check if the ball has stopped moving and is on the floor.
                 if (abs(ball.get_x() - x_prime) - bw // 2) < 0.001 and (abs(ball.get_y() - y_prime) - bw // 2) <= 0.001 and floor(h - (ball.get_y() + bw)) == 0:
+                    ball.respawn()
+                    break
+                # check if the ball is our of screen.
+                if ball.get_x() > w or ball.get_x() + bw < 0:
                     ball.respawn()
                     break
                 # update ball's coordinates.
