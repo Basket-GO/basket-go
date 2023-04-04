@@ -93,13 +93,15 @@ class BallReleaseEventListener(EventListener):
             if self.__t.paused():
                 pass
             if self.__t.stopped():
+                ball.set_x(ball.get_initial_x())
+                ball.set_y(ball.get_initial_y())
                 break
             ts = time() - tr
             if ts >= delta_time:
                 # update the y coordinate of the ball's speed vector.
                 v.set_y(v.get_y() + g * delta_time)
                 # make the ball rotate
-                ball.rotate(v.get_x())
+                #ball.rotate(v.get_x())
                 # pre-calculate alpha.
                 if v.get_x() == 0:
                     alpha = copysign(pi / 2, v.get_y())

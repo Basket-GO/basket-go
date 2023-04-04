@@ -14,6 +14,4 @@ class BallRespawnEventListener(KeyPressedEventListener):
             # stop the ball movement
             thread.stop()
             # reset ball's position
-            ball.set_x(ball.get_initial_x())
-            ball.set_y(ball.get_initial_y())
             ball.set_released(False)
