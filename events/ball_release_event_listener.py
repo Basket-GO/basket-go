@@ -1,4 +1,4 @@
-from math import (atan, cos, sin, pi, copysign, tan, sqrt)
+from math import (atan, cos, sin, pi, copysign, tan, sqrt, floor)
 from events.event_listener import EventListener
 from utils.stoppable_thread import StoppableThread
 from utils.vector import Vector
@@ -93,8 +93,7 @@ class BallReleaseEventListener(EventListener):
             if self.__t.paused():
                 pass
             if self.__t.stopped():
-                ball.set_x(ball.get_initial_x())
-                ball.set_y(ball.get_initial_y())
+                ball.respawn()
                 break
             ts = time() - tr
             if ts >= delta_time:
@@ -162,6 +161,11 @@ class BallReleaseEventListener(EventListener):
                             hoop.set_touched(True)
                             # break the check loop.
                             break
+                # check if the ball has stopped moving and is on the floor.
+                if (abs(ball.get_x() - x_prime) - bw // 2) < 0.001 and (abs(ball.get_y() - y_prime) - bw // 2) <= 0.001 and floor(h - (ball.get_y() + bw)) == 0:
+                    ball.respawn()
+                    break
+                # update ball's coordinates.
                 ball.set_x(x_prime - bw // 2)
                 ball.set_y(y_prime - bw // 2)
                 tr += delta_time

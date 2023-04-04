@@ -13,5 +13,3 @@ class BallRespawnEventListener(KeyPressedEventListener):
         if thread is not None:
             # stop the ball movement
             thread.stop()
-            # reset ball's position
-            ball.set_released(False)
