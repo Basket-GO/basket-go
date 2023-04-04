@@ -98,6 +98,8 @@ class BallReleaseEventListener(EventListener):
             if ts >= delta_time:
                 # update the y coordinate of the ball's speed vector.
                 v.set_y(v.get_y() + g * delta_time)
+                # make the ball rotate
+                ball.rotate(v.get_x())
                 # pre-calculate alpha.
                 if v.get_x() == 0:
                     alpha = copysign(pi / 2, v.get_y())
@@ -157,53 +159,4 @@ class BallReleaseEventListener(EventListener):
                             ball.set_rebounced(True)
                 ball.set_x(x_prime - bw // 2)
                 ball.set_y(y_prime - bw // 2)
-                """v.set_y(v.get_y() + g * delta_time)
-                # update the ball's current coordinates.
-                x += v.get_x() * delta_time * 60
-                y = v.get_y() * delta_time * 60 + y if (v.get_y() * delta_time * 60) + y < h - bw else h - bw
-                # display the ball.
-                ball.set_x(x)
-                ball.set_y(y)
-                # represents respectively the x and y center of the ball.
-                cx, cy = ((bw / 2) + ball.get_x(), (bw / 2) + ball.get_y())
-                # calculate the euclidian distance between the basket and the ball
-                basket_distance = (sqrt(((cx - bx[0]) ** 2) + ((cy - by[0]) ** 2)), sqrt(((cx - bx[1]) ** 2) + ((cy - by[1]) ** 2)))
-                # pre-calculate alpha.
-                if v.get_x() == 0:
-                    alpha = copysign(pi / 2, v.get_y())
-                elif v.get_x() > 0:
-                    alpha = self.__arctangente(v.get_x(), v.get_y())
-                elif v.get_x() < 0:
-                    alpha = pi + self.__arctangente(v.get_x(), v.get_y())
-                if basket_distance[0] <= 35:
-                    r = basket_distance[0] / 35
-                    ox = cx + (bx[0] - cx) * r
-                    oy = cy + (by[0] - cy) * r
-                    alpha = self.__rebounce(cx, cy, ox, oy, alpha)
-                    # update vector.
-                    v.set_x(v.normalize() * cos(alpha) * 0.6)
-                    v.set_y(-v.normalize() * sin(alpha) * 0.6)
-                    # calculate the euclidian distance between the basket and the ball
-                    basket_distance = (sqrt(((cx - bx[0]) ** 2) + ((cy - by[0]) ** 2)), sqrt(((cx - bx[1]) ** 2) + ((cy - by[1]) ** 2)))
-                    # update the ball's current coordinates.
-                    while basket_distance[0] <= 35:
-                        x += v.get_x() * delta_time * 60
-                        y = v.get_y() * delta_time * 60 + y if (v.get_y() * delta_time * 60) + y < h - bw else h - bw
-                        ball.set_x(x)
-                        ball.set_y(y)
-                        # represents respectively the x and y center of the ball.
-                        cx, cy = ((bw / 2) + ball.get_x(), (bw / 2) + ball.get_y())
-                        # calculate the euclidian distance between the basket and the ball
-                        basket_distance = (sqrt(((cx - bx[0]) ** 2) + ((cy - by[0]) ** 2)), sqrt(((cx - bx[1]) ** 2) + ((cy - by[1]) ** 2)))
-                if y + bw >= h:
-                    # re-calculate alpha.
-                    alpha = self.__rebounce(cx, cy, cx, h, alpha)
-                    # update vector.
-                    v.set_x(v.normalize() * cos(alpha) * 0.6)
-                    v.set_y(-v.normalize() * sin(alpha) * 0.6)
-                # check if the ball is out of the screen.
-                if x - bw >= w or x + bw <= 0 or (y >= 570 and v.get_y() < -.03 and v.get_y() > -.05):
-                    # reset ball's coordinates.
-                    ball.respawn()
-                    break"""
                 tr += delta_time

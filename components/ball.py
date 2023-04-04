@@ -1,5 +1,6 @@
 from element import Element
 from pygame import Surface
+import pygame
 from math import (pi, atan)
 
 class Ball(Element):
@@ -46,6 +47,14 @@ class Ball(Element):
                 return atan(x/y) - pi/2
             else:  # Second quadrant
                 return atan(x/y) + pi/2
+    def rotate(self, angle):
+        orig_rect = self.get_surface().get_rect()
+        rot_image = pygame.transform.rotate(self.get_surface(), angle)
+        rot_rect = orig_rect.copy()
+        rot_rect.center = rot_image.get_rect().center
+        rot_image = rot_image.subsurface(rot_rect).copy()
+        rot_image.unlock()
+        self.set_surface(rot_image)
     def rebounce(self, ox, oy, alpha):
         """
         Makes the ball rebounce.

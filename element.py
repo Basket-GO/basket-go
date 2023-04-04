@@ -11,6 +11,8 @@ class Element():
         self.__visible = visible
         self.__allow_override = allow_override
         pass
+    def set_surface(self, surface:Surface):
+        self.__surface = surface
     def get(self) -> tuple:
         """
         :return: the whole element.
@@ -41,11 +43,6 @@ class Element():
         :return: the live y position of the element.
         """
         return self.__y
-    def get_surface(self):
-        """
-        :return: the element surface.
-        """
-        return self.__surface
     def allow_override(self):
         """
         :return: whether the element can be overrident or not.
