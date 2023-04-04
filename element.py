@@ -23,16 +23,18 @@ class Element():
         :return: the surface.
         """
         return self.__surface
-    def get_initial_x(self):
+    def get_initial_x(self, relative:bool):
         """
+        :param relative bool: whether whe should get it from the center or not.
         :return: the initial immutable x coordinate of the element.
         """
-        return self.__ix
-    def get_initial_y(self):
+        return self.__ix if not relative else (self.get_surface().get_size()[0] / 2) + self.__ix
+    def get_initial_y(self, relative:bool):
         """
+        :param relative bool: whether we should get it from the center or not.
         :return: the initial immutable x coordinate of the element.
         """
-        return self.__iy
+        return self.__iy if not relative else (self.get_surface().get_size()[0] / 2) + self.__iy
     def get_x(self):
         """
         :return: the live x position of the element.
@@ -90,8 +92,9 @@ class Element():
         :param int x1: the x' position to compare with.
         :param int y1: the y' position to compare with.
         """
-        return sqrt((x - x1) ** 2) + ((y - y1) ** 2)
-    def distance(self, x, y):
+        
+        return sqrt(((x - x1) ** 2) + ((y - y1) ** 2))
+    def distance(self, x, y, from_center:bool):
         """
         :return: the euclidian distance between this element and x, y coordinates
         :param int x: the x position to compare with.
@@ -99,7 +102,7 @@ class Element():
         :param bool from_center: whether we should calculate the euclidian distance
         from the center of the surface or not.
         """
-        return sqrt(((self.center_x() - x) ** 2) + ((self.center_y() - y) ** 2))
+        return sqrt(((self.center_x() - x) ** 2) + ((self.center_y() - y) ** 2)) if from_center else sqrt((self.get_x() - x) ** 2) + ((self.get_y() - y) ** 2)
     def distance_element(self, element, from_center:bool):
         """
         :return: the euclidian distance between this element and another one.

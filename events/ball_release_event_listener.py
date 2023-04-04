@@ -23,7 +23,7 @@ class BallReleaseEventListener(EventListener):
         # retrive game's window.
         window = game.get_window()
         # check if the ball is at the same position
-        if abs(ball.get_x() - ball.get_initial_x()) < 60 and abs(ball.get_y() - ball.get_initial_y()) < 60 or ball.is_released():
+        if abs(ball.get_x() - ball.get_initial_x(False)) < 60 and abs(ball.get_y() - ball.get_initial_y(False)) < 60 or ball.is_released():
             ball.respawn()
             # clear dots.
             for i in range(20):
@@ -81,8 +81,8 @@ class BallReleaseEventListener(EventListener):
         bw = ball.get_surface().get_size()[0]
         # define gravitation.
         g = 9.81
-        vx, vy = 0.1 * (ball.get_initial_x() - ball.get_x()
-                        ), 0.1 * (ball.get_initial_y() - ball.get_y())
+        vx, vy = 0.1 * (ball.get_initial_x(False) - ball.get_x()
+                        ), 0.1 * (ball.get_initial_y(False) - ball.get_y())
         
         # define our vector
         v = Vector(vx, vy)
@@ -127,7 +127,7 @@ class BallReleaseEventListener(EventListener):
                     y_prime = v.get_y() * delta_time * 60 + y_prime if (v.get_y() * delta_time * 60) + y_prime < h - bw // 2 else h - bw //2
                 else:
                     # calculate the euclidian distance between the basket and the center of the ball.
-                    b_d = ball.distance(bx[0], by[0]), ball.distance(bx[1], by[1])
+                    b_d = ball.distance(bx[0], by[0], True), ball.distance(bx[1], by[1], True)
                     # loop through each hoop point.
                     for i in range(len(b_d)):
                         # retrieve hoop.

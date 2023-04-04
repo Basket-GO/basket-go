@@ -26,8 +26,8 @@ class Ball(Element):
         Reset the ball's position to it's initial location
         and set the ball as not released.
         """
-        self.set_x(self.get_initial_x())
-        self.set_y(self.get_initial_y())
+        self.set_x(self.get_initial_x(False))
+        self.set_y(self.get_initial_y(False))
         self.set_released(False)
     def __arctan(self, x, y):
         """
@@ -71,11 +71,25 @@ class Ball(Element):
         elif ox - cx > 0:
             teta = self.__arctan((ox - cx), (oy - cy))
         return pi + 2 * teta - alpha
-    def has_rebounced(self):
+    def has_rebounced(self) -> bool:
+        """
+        :return: whether the ball has rebounced or not.
+        """
         return self.__has_rebounced
-    def set_rebounced(self, has_rebounced:bool):
+    def set_rebounced(self, has_rebounced:bool) -> None:
+        """
+        States that the ball has rebounced or not.
+        :param bool has_rebounced: whether the ball has rebounced or not.
+        """
         self.__has_rebounced = has_rebounced
-    def has_grnd_rebounced(self):
+    def has_grnd_rebounced(self) -> bool:
+        """
+        :return: whether the ball has rebounced on the ground or not.
+        """
         return self.__has_grnd_rebounced
-    def set_grnd_rebounced(self, has_grnd_rebounced:bool):
+    def set_grnd_rebounced(self, has_grnd_rebounced:bool) -> None:
+        """
+        States that the ball has rebounced on the ground or not.
+        :param bool has_grnd_rebounced: whether the ball has rebounced on the ground or not.
+        """
         self.__has_grnd_rebounced = has_grnd_rebounced
