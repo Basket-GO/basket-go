@@ -128,37 +128,40 @@ class BallReleaseEventListener(EventListener):
                     y_prime = v.get_y() * delta_time * 60 + y_prime if (v.get_y() * delta_time * 60) + y_prime < h - bw // 2 else h - bw //2
                 else:
                     # calculate the euclidian distance between the basket and the center of the ball.
-                    b_d1 = ball.distance(bx[0], by[0])
-                    b_d2 = ball.distance(bx[1], by[1])
-                    # calculate the radius between the first basket and the ball.
-                    r1 = b_d1 / (bw / 2)
-                    r2 = b_d2 / (bw / 2)
-                    # check if we touch the hood.
-                    if b_d1 >= bw // 2:
-                        ball.set_rebounced(False)
-                    if b_d1 <= bw // 2 and not ball.has_rebounced():
-                         # calcuate the point of impact on the ball radius with the basket.
-                        ox = ball.center_x() + (bx[0] - ball.center_x()) * r1
-                        oy = ball.center_y() + (by[0] - ball.center_y()) * r1
-                        # copy the actual vector.
-                        v_second = copy(v)
-                        # calculate the alpha rebounce.
-                        alpha_second = ball.rebounce(ox, oy, alpha)
-                        # update the vector.
-                        v_second.set_x(v_second.normalize() * cos(alpha_second) * absorption)
-                        v_second.set_y(-v_second.normalize() * sin(alpha_second) * absorption)
-                        # calculate the future x coordinate of the ball.
-                        x_second = v_second.get_x() * delta_time * 60 + x_prime
-                        # calculate the future y coordinate of the ball.
-                        y_second = v_second.get_y() * delta_time * 60 + y_prime
-                        # re-calculate the distance.
-                        b_d1_prime = ball.distance_two_points(x_second, y_second, bx[0], by[0])
-                        # check the next distance isn't within the bounds of the hood.
-                        if b_d1_prime > b_d1:
+                    b_d = ball.distance(bx[0], by[0]), ball.distance(bx[1], by[1])
+                    # loop through each hoop point.
+                    for i in range(len(b_d)):
+                        # retrieve hoop.
+                        hoop = basket.hoops()[i]
+                        # retrieve the distance between the hoop and the ball.
+                        distance = b_d[i]
+                        # calculate the radius between the first basket and the ball.
+                        r = distance / (bw / 2)
+                        # check if we touch the hood.
+                        if distance >= bw // 2 and hoop.has_been_touched():
+                            ball.set_rebounced(False)
+                            hoop.set_touched(False)
+                        if distance <= bw // 2 and not ball.has_rebounced():
+                            # calcuate the point of impact on the ball radius with the basket.
+                            ox = ball.center_x() + (bx[i] - ball.center_x()) * r
+                            oy = ball.center_y() + (by[i] - ball.center_y()) * r
+                            # copy the actual vector.
+                            v_second = copy(v)
+                            # calculate the alpha rebounce.
+                            alpha_second = ball.rebounce(ox, oy, alpha)
+                            # update the vector.
+                            v_second.set_x(v_second.normalize() * cos(alpha_second) * absorption)
+                            v_second.set_y(-v_second.normalize() * sin(alpha_second) * absorption)
+                            # update intial vector.
                             v = v_second
+                            # update intial alpha.
                             alpha = alpha_second
-                            x_prime, y_prime = x_second, y_second
+                            # states that the ball rebounced.
                             ball.set_rebounced(True)
+                            # states that the hoop has been touched.
+                            hoop.set_touched(True)
+                            # break the check loop.
+                            break
                 ball.set_x(x_prime - bw // 2)
                 ball.set_y(y_prime - bw // 2)
                 tr += delta_time

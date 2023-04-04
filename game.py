@@ -1,6 +1,7 @@
 import pygame
 import sys
 
+from components.hoop import Hoop
 from components.player import Player
 from element import Element
 from interface.window import Window
@@ -50,7 +51,7 @@ class Game():
         basket = pygame.image.load("img/Panier.png")
         basket = pygame.transform.scale(basket, (300, 300))
         # register basket.
-        self.get_window().register_element("basket", Basket(Element(basket, 350, 250), Element(white_dot, 500, 400), Element(white_dot, 580, 400)))
+        self.get_window().register_element("basket", Basket(Element(basket, 350, 250), Hoop(white_dot, 500, 400), Hoop(white_dot, 580, 400)))
         # listen to events.
         self.listen(pygame.MOUSEMOTION, DragEventListener(self))
         self.listen(pygame.MOUSEBUTTONUP, BallReleaseEventListener())
