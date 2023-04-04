@@ -1,5 +1,5 @@
 from pygame import Surface
-from math import (sqrt, pi, atan)
+from math import (sqrt)
 
 class Element():
     def __init__(self, surface:Surface, x:int, y:int, visible:bool=True, allow_override:bool=False) -> None:
