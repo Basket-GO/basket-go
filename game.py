@@ -48,10 +48,10 @@ class Game():
         self.get_window().register_element("placeholder_ball", Element(placeholder_ball, 170, 450, False))
         white_dot = pygame.image.load("img/white_dot.png")
         white_dot = pygame.transform.scale(white_dot, (20, 20))
-        basket = pygame.image.load("img/Panier.png")
-        basket = pygame.transform.scale(basket, (300, 300))
-        # register basket.
-        self.get_window().register_element("basket", Basket(Element(basket, 350, 250), Hoop(white_dot, 500, 400), Hoop(white_dot, 580, 400)))
+        basket = pygame.image.load("img/basket.png")
+        basket = pygame.transform.scale(basket, (70, 50))
+        # register basket elements.
+        self.get_window().register_element("basket",  Basket(Element(basket, 300, 250), Hoop(white_dot, 450, 400), Hoop(white_dot, 530, 400)))
         # listen to events.
         self.listen(pygame.MOUSEMOTION, DragEventListener(self))
         self.listen(pygame.MOUSEBUTTONUP, BallReleaseEventListener())

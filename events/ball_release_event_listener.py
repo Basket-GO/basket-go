@@ -169,6 +169,10 @@ class BallReleaseEventListener(EventListener):
                 if ball.get_x() > w or ball.get_x() + bw < 0:
                     ball.respawn()
                     break
+                # check if ball is within the basket.
+                if basket.is_within(ball.center_x(), ball.center_y(), v.get_y()) and not ball.has_grnd_rebounced():
+                    ball.respawn()
+                    break
                 # update ball's coordinates.
                 ball.set_x(x_prime - bw // 2)
                 ball.set_y(y_prime - bw // 2)
