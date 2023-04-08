@@ -118,3 +118,92 @@ class Shop:
             str: All the products
         """
         return str(self.products)
+
+    def buyProduct(self, product: Article):
+
+        if product.available is True and product.price <= User.getMoneyAvailable():
+            product.changeStatus()
+            User.removeMoney(product.getPrice())
+            User.addProductBuy(product)
+            return True
+        else:
+            return False
+
+    def sellProduct(self, product: Article):
+        # If the product is not available and user possess the product
+        if product.available is False and product in User.getProductBuy():
+            product.changeStatus()
+            User.addMoney(product.getPrice())
+            User.removeProductBuy(product)
+            return True
+        else:
+            return False
+
+# Class to manage user and their money
+
+
+class User:
+    def __init__(self, productBuy: list, moneyAvailable=0) -> None:
+        """Class to manage user and their money
+
+        Args:
+            moneyAvailable (int, optional): The money available for the user. Defaults to 0.
+        """
+        self.moneyAvailable = moneyAvailable
+        self.productBuy = productBuy
+
+    def getMoneyAvailable(self) -> int:
+        """Get the money available for the user
+
+        Returns:
+            int: The money available for the user
+        """
+        return self.moneyAvailable
+
+    def setMoneyAvailable(self, money: int) -> None:
+        """Set the money available for the user
+
+        Args:
+            money (int): The money available for the user
+        """
+        self.moneyAvailable = money
+
+    def addMoney(self, money: int) -> None:
+        """Add money to the user
+
+        Args:
+            money (int): The money to add
+        """
+        self.moneyAvailable += money
+
+    def removeMoney(self, money: int) -> None:
+        """Remove money to the user
+
+        Args:
+            money (int): The money to remove
+        """
+        self.moneyAvailable -= money
+
+    def getProductBuy(self) -> list:
+        """Get the product buy by the user
+
+        Returns:
+            list: The product buy by the user
+        """
+        return self.productBuy
+
+    def addProductBuy(self, product: Article) -> None:
+        """Add a product buy by the user
+
+        Args:
+            product (Article): The product to add
+        """
+        self.productBuy.append(product)
+
+    def removeProductBuy(self, product: Article) -> None:
+        """Remove a product buy by the user
+
+        Args:
+            product (Article): The product to remove
+        """
+        self.productBuy.remove(product)
