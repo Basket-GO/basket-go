@@ -119,6 +119,14 @@ class Shop:
         """
         return str(self.products)
 
+    def getStatus(self) -> bool:
+        """Get the status of the shop
+
+        Returns:
+            bool: If the shop is open
+        """
+        return self.status
+
     def buyProduct(self, product: Article):
 
         if product.available is True and product.price <= User.getMoneyAvailable():
@@ -133,7 +141,7 @@ class Shop:
         # If the product is not available and user possess the product
         if product.available is False and product in User.getProductBuy():
             product.changeStatus()
-            User.addMoney(product.getPrice())
+            User.addMoney(product.getPrice() // 20)
             User.removeProductBuy(product)
             return True
         else:
