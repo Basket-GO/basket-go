@@ -15,10 +15,12 @@ from events.ball_respawn_event_listener import BallRespawnEventListener
 
 class Game():
     def __init__(self, screen: pygame.Surface, img_location: str, img_name: str, sound_location: str) -> None:
+        # init players index. (used for turn by turn games)
+        self.__players_index = 0
         # get the actual display screen.
         self.__screen = screen
         # set up playing players.
-        self.__players = []
+        self.__players = {}
         # set up the events pair.
         self.__events = []
         # set up our window.
@@ -44,11 +46,11 @@ class Game():
         self.get_window().register_element("ball", Ball(ball, 170, 450))
         # register the placeholder ball.
         self.get_window().register_element("placeholder_ball", Element(placeholder_ball, 170, 450, False))
-        white_dot = pygame.image.load("img/white_dot.png")
-        white_dot = pygame.transform.scale(white_dot, (20, 20))
+        collider = pygame.image.load("img/white_dot.png")
+        collider = pygame.transform.scale(collider, (20, 20))
         basket = pygame.image.load("img/basket.png")
         # register basket elements.
-        self.get_window().register_element("basket",  Basket(Element(basket, 300, 300), Hoop(white_dot, 300, 320), Hoop(white_dot, 400, 320)))
+        self.get_window().register_element("basket",  Basket(Element(basket, 300, 300), Hoop(collider, 300, 320), Hoop(collider, 400, 320)))
         # listen to events.
         self.listen(pygame.MOUSEMOTION, DragEventListener(self))
         self.listen(pygame.MOUSEBUTTONUP, BallReleaseEventListener())
@@ -59,7 +61,7 @@ class Game():
         """
         return self.__window
 
-    def register_player(self, player_name: str) -> None:
+    def register_player(self, player_name:str) -> None:
         """
         Register a player by its name.
         :param: str player_name: the player's name.
@@ -69,7 +71,20 @@ class Game():
         # setup the player.
         player.setup()
         # register the player.
-        self.__players.append(player)
+        self.__players[player_name] = player
+    
+    def get_player(self, player_name:str) -> Player:
+        """
+        Retrieve a player by its name.
+        :param: str player_name: the player's name.
+        """
+        return self.__players[player_name]
+    
+    def get_playing_player(self) -> Player:
+        """
+        Retrieve and returns the current playing player.
+        """
+        return list(self.__players.values())[self.__players_index]
 
     def register_thread(self, name:str, thread) -> None:
         """
@@ -91,6 +106,9 @@ class Game():
         Setup the ressources (background image, audio, etc.)
         and listen to all the events built in the game.
         """
+        # check if the game as enough players to start.
+        if len(self.__players) == 0:
+            raise RuntimeError("The game requires at least one player to start...")
         while True:
             x,y = pygame.mouse.get_pos()
             x -= self.cursor.get_width()/2

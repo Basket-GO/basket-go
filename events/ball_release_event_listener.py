@@ -159,19 +159,31 @@ class BallReleaseEventListener(EventListener):
                             ball.set_rebounced(True)
                             # states that the hoop has been touched.
                             hoop.set_touched(True)
+                            # update rebounces count.
+                            basket.set_rebounces(basket.get_rebounces() + 1)
                             # break the check loop.
                             break
                 # check if the ball has stopped moving and is on the floor.
                 if (abs(ball.get_x() - x_prime) - bw // 2) < 0.001 and (abs(ball.get_y() - y_prime) - bw // 2) <= 0.001 and floor(h - (ball.get_y() + bw)) == 0:
                     ball.respawn()
+                    basket.set_rebounces(0)
                     break
                 # check if the ball is our of screen.
                 if ball.get_x() > w or ball.get_x() + bw < 0:
                     ball.respawn()
+                    basket.set_rebounces(0)
                     break
                 # check if ball is within the basket.
                 if basket.is_within(ball.center_x(), ball.center_y(), v.get_y()) and not ball.has_grnd_rebounced():
+                    # retrieve player.
+                    player = game.get_playing_player()
+                    # check if the ball has touched the hoods.
+                    if basket.get_rebounces() > 0:
+                        player.set_score(player.get_score() + 1)
+                    else:
+                        player.set_score(player.get_score() + 3)
                     ball.respawn()
+                    basket.set_rebounces(0)
                     break
                 # update ball's coordinates.
                 ball.set_x(x_prime - bw // 2)

@@ -9,6 +9,8 @@ class Basket(Element):
         # make the hoops invisible.
         self.__first_hoop.set_visible(False)
         self.__second_hoop.set_visible(False)
+        # init rebounces count.
+        self.__rebounces = 0
     def move(self, x:int, y:int) -> None:
         """
         Moves the decoration and the hoops. More convenient hehe :D
@@ -37,3 +39,7 @@ class Basket(Element):
         # retrieve hoops.
         hoop_1, hoop_2 = self.hoops()
         return x > hoop_1.center_x() and x < hoop_2.center_x() and y > hoop_1.center_y() and y < hoop_1.center_y() + 35
+    def set_rebounces(self, count:int) -> None:
+        self.__rebounces = count
+    def get_rebounces(self) -> int:
+        return self.__rebounces
