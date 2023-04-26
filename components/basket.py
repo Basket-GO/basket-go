@@ -36,4 +36,4 @@ class Basket(Element):
         """
         # retrieve hoops.
         hoop_1, hoop_2 = self.hoops()
-        return x > hoop_1.center_x() and x < hoop_2.center_x() and y > hoop_1.center_y() and vy > 0
+        return x > hoop_1.center_x() and x < hoop_2.center_x() and y > hoop_1.center_y() and y < hoop_1.center_y() + 35

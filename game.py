@@ -29,9 +29,7 @@ class Game():
         self.fps = 150
         # get the actual basket ball field.
         field = pygame.image.load(img_location + "terrain_basket_public.png")
-        field = pygame.transform.scale(field, (1024, 640))
         field2 = pygame.image.load("img/terrain_basket_public_2.png")
-        field2 = pygame.transform.scale(field2, (1024, 640))
         # get the cursor
         cursor_init = pygame.image.load("img/cursor.png").convert_alpha()
         self.cursor = cursor_init
@@ -49,9 +47,8 @@ class Game():
         white_dot = pygame.image.load("img/white_dot.png")
         white_dot = pygame.transform.scale(white_dot, (20, 20))
         basket = pygame.image.load("img/basket.png")
-        basket = pygame.transform.scale(basket, (70, 50))
         # register basket elements.
-        self.get_window().register_element("basket",  Basket(Element(basket, 300, 250), Hoop(white_dot, 450, 400), Hoop(white_dot, 530, 400)))
+        self.get_window().register_element("basket",  Basket(Element(basket, 300, 300), Hoop(white_dot, 300, 320), Hoop(white_dot, 400, 320)))
         # listen to events.
         self.listen(pygame.MOUSEMOTION, DragEventListener(self))
         self.listen(pygame.MOUSEBUTTONUP, BallReleaseEventListener())
