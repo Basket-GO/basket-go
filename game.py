@@ -100,6 +100,8 @@ class Game():
         Can be None.
         """
         return self.__threads[name]
+    def has_thread(self, name:str):
+        return name in self.__threads
     def display_fps(self):
         """Show the program's FPS in the window handle."""
         caption = "{} - FPS: {:.2f}".format("ʙᴀsᴋᴇᴛ ɢᴏ !", self.clock.get_fps())
@@ -122,6 +124,8 @@ class Game():
             x = (self.__screen.get_width() - text.get_width() * len(self.__players) - 80 * (len(self.__players) - 1)) / 2 + 80 * (i) + text.get_width() / 2
             # register the game element.
             self.get_window().register_element("player_" + player.get_name() + "_score", Element(text, x, 10, True, True))
+        # update basket's position
+        self.__update_basket_pos()
         while True:
             x,y = pygame.mouse.get_pos()
             x -= self.cursor.get_width()/2
@@ -170,10 +174,26 @@ class Game():
         return self.__screen
     
     def next_turn(self):
+        # retrieve the ball.
+        ball = self.get_window().get_element("ball")
         # make the ball respawn.
-        self.get_window().get_element("ball").respawn()
+        ball.respawn()
+        # retrieve the basket.
+        basket = self.get_window().get_element("basket")
         # reset ball rebounces on the hood.
-        self.get_window().get_element("basket").set_rebounces(0)
+        basket.set_rebounces(0)
+        # update basket's position
+        self.__update_basket_pos()
         # make the next player play.
         self.__players_index = 0 if self.__players_index + 1 >= len(self.__players) else self.__players_index + 1
+
+    def __update_basket_pos(self):
+        # retrieve the ball.
+        ball = self.get_window().get_element("ball")
+        # retrieve the basket.
+        basket = self.get_window().get_element("basket")
+        # calculate the x & y coordinates.
+        x, y = randint(ball.get_x() + 180 + ball.get_surface().get_width(), self.__screen.get_width() - basket.get_surface().get_width()), randint(200, 430)
+        # move the basket.
+        basket.move(x, y)
     
