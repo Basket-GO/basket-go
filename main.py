@@ -48,7 +48,7 @@ while is_running:
         image = ["flame","mountains","pink","basket-ball","smile","military"]
         i = random.randint(0,5)
         # create a new instance of the Game.
-        game = Game(window, "img/",image[i], None)
+        game = Game(window, "img/",image[i], None, [(152, 255, 152), (135, 206, 235), (255, 105, 180), (255, 215, 0), (64, 224, 208), (218, 112, 214)])
         # register dummy player.
         game.register_player("Yanis")
         game.register_player("Test?")

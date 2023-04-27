@@ -8,13 +8,16 @@ from interface.window import Window
 from components.ball import Ball
 from components.basket import Basket
 
+from random import randint
 from events.event_listener import EventListener
 from events.drag_event_listener import DragEventListener
 from events.ball_release_event_listener import BallReleaseEventListener
 from events.ball_respawn_event_listener import BallRespawnEventListener
 
 class Game():
-    def __init__(self, screen: pygame.Surface, img_location: str, img_name: str, sound_location: str) -> None:
+    def __init__(self, screen: pygame.Surface, img_location: str, img_name: str, sound_location: str, available_colors:list) -> None:
+        # init available colors for the players.
+        self.__available_colors = available_colors
         # init players index. (used for turn by turn games)
         self.__players_index = 0
         # get the actual display screen.
@@ -66,10 +69,10 @@ class Game():
         Register a player by its name.
         :param: str player_name: the player's name.
         """
+        # retrieve player's color based on its index.
+        color = self.__available_colors[len(self.__players)]
         # create the player.
-        player = Player(self, player_name)
-        # setup the player.
-        #player.setup()
+        player = Player(self, player_name, color)
         # register the player.
         self.__players[player_name] = player
     
@@ -114,10 +117,9 @@ class Game():
             # retrieve the player.
             player = list(self.__players.values())[i]
             # render text.
-            text = pygame.font.Font('freesansbold.ttf', 32).render(str(player.get_score()), True, (255, 255, 255), None)
+            text = pygame.font.Font('freesansbold.ttf', 32).render(str(player.get_score()), True, player.get_color(), None)
             # set the x position of the text.
             x = (self.__screen.get_width() - text.get_width() * len(self.__players) - 80 * (len(self.__players) - 1)) / 2 + 80 * (i) + text.get_width() / 2
-            print(x)
             # register the game element.
             self.get_window().register_element("player_" + player.get_name() + "_score", Element(text, x, 10, True, True))
         while True:

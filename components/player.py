@@ -2,9 +2,11 @@ import pygame
 from element import Element
 
 class Player():
-    def __init__(self, game, name:str) -> None:
+    def __init__(self, game, name:str, color:tuple) -> None:
         # game's default font.
         self.__font = pygame.font.Font('freesansbold.ttf', 32)
+        # set player's color.
+        self.__color = color
         # set player's game.
         self.__game = game
         # set our player's name.
@@ -28,12 +30,17 @@ class Player():
         """
         self.__score = score
         self.__update_score()
+    def get_color(self) -> tuple:
+        """
+        :return: the player's assignated color.
+        """
+        return self.__color
     def __update_score(self) -> None:
         """
         Updates player's score text. (UI)
         """
         # render score.
-        text = self.__font.render(str(self.__score), True, (255, 255, 255), None)
+        text = self.__font.render(str(self.__score), True, self.__color, None)
         # retrieve previous x & y coordinates.
         x, y = self.__game.get_window().get_element("player_" + self.__name + "_score").get_position()
         # override previous score text.
