@@ -107,18 +107,26 @@ while is_running:
             Leader = True
         if shop_btn.draw_and_clicked(window, event):
             pass
-        # if start_button was clicked or selected and press enter
-        if start_button.draw_and_clicked(window, event):
-            image = ["flame", "mountains", "pink",
-                     "basket-ball", "smile", "military"]
-            i = random.randint(0, 5)
-            # create a new instance of the Game.
-            game = Game(window, "img/basket-ball/", image[i], None)
-            # register dummy player.
-            game.register_player("Yanis")
-            # setup the game.
-            game.setup()
-        if exit_button.draw_and_clicked(window, event):
+    # if start_button was clicked or selected and press enter
+    if start_button.draw_and_clicked(window, event) == True:
+        image = ["flame", "mountains", "pink",
+                 "basket-ball", "smile", "military"]
+        i = random.randint(0, 5)
+        # create a new instance of the Game.
+        game = Game(window, "img/", image[i], None, [(152, 255, 152), (135, 206, 235),
+                    (255, 105, 180), (255, 215, 0), (64, 224, 208), (218, 112, 214)])
+        # register dummy player.
+        game.register_player("Yanis", 0)
+        game.register_player("Test", 0)
+        # setup the game.
+        game.setup()
+    # if exit_button was clicked or selected and press enter
+    if exit_button.draw_and_clicked(window, event) == True:
+        pygame.quit()
+        window.blit(cursor_init, (x, y))
+        sys.exit()
+    for event in pygame.event.get():
+        if event.type == pygame.QUIT:
             pygame.quit()
             sys.exit()
         if gear_btn.draw_and_clicked(window, event):
@@ -179,12 +187,12 @@ while is_running:
 
                 else:
                     color2 = color_passive
-            if back_btn.draw_and_clicked(window,event):
+            if back_btn.draw_and_clicked(window, event):
                 menu_state = "main"
             if save_btn.draw_and_clicked(window, event):
                 menu_state = "main"
-            
-            window.blit(cursor_init,(x,y))
+
+            window.blit(cursor_init, (x, y))
             # draw rectangle and argument passed which should
             # be on screen
             pygame.draw.rect(window, color, input_rect)
