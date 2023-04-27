@@ -18,6 +18,11 @@ class Element():
         :return: the whole element.
         """
         return (self.__surface, (self.__x, self.__y))
+    def get_position(self) -> tuple:
+        """
+        :return: the x & y coordinates.
+        """
+        return self.__x, self.__y
     def get_surface(self) -> Surface:
         """
         :return: the surface.

@@ -51,6 +51,7 @@ while is_running:
         game = Game(window, "img/",image[i], None)
         # register dummy player.
         game.register_player("Yanis")
+        game.register_player("Test?")
         # setup the game.
         game.setup()
     # if exit_button was clicked or selected and press enter

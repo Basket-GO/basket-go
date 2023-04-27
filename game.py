@@ -69,7 +69,7 @@ class Game():
         # create the player.
         player = Player(self, player_name)
         # setup the player.
-        player.setup()
+        #player.setup()
         # register the player.
         self.__players[player_name] = player
     
@@ -109,6 +109,17 @@ class Game():
         # check if the game as enough players to start.
         if len(self.__players) == 0:
             raise RuntimeError("The game requires at least one player to start...")
+        # loop through each player.
+        for i in range(len(self.__players)):
+            # retrieve the player.
+            player = list(self.__players.values())[i]
+            # render text.
+            text = pygame.font.Font('freesansbold.ttf', 32).render(str(player.get_score()), True, (255, 255, 255), None)
+            # set the x position of the text.
+            x = (self.__screen.get_width() - text.get_width() * len(self.__players) - 80 * (len(self.__players) - 1)) / 2 + 80 * (i) + text.get_width() / 2
+            print(x)
+            # register the game element.
+            self.get_window().register_element("player_" + player.get_name() + "_score", Element(text, x, 10, True, True))
         while True:
             x,y = pygame.mouse.get_pos()
             x -= self.cursor.get_width()/2
@@ -155,4 +166,12 @@ class Game():
         Return game's screen.
         """
         return self.__screen
+    
+    def next_turn(self):
+        # make the ball respawn.
+        self.get_window().get_element("ball").respawn()
+        # reset ball rebounces on the hood.
+        self.get_window().get_element("basket").set_rebounces(0)
+        # make the next player play.
+        self.__players_index = 0 if self.__players_index + 1 >= len(self.__players) else self.__players_index + 1
     

@@ -11,16 +11,6 @@ class Player():
         self.__name = name
         # init our score.
         self.__score = 0
-        # init score text.
-        self.__text = None
-        pass
-    def setup(self) -> None:
-        """
-        Setup the player into the game.
-        """
-        self.__text = self.__font.render(str(self.__score), True, (255, 255, 255), None)
-        # register the game element.
-        self.__game.get_window().register_element("player_" + self.__name + "_score", Element(self.__text, 512, 10, True, True))
     def get_name(self) -> str:
         """
         :return: str: player's name.
@@ -42,5 +32,9 @@ class Player():
         """
         Updates player's score text. (UI)
         """
-        self.__text = self.__font.render(str(self.__score), True, (255, 255, 255), None)
-        self.__game.get_window().register_element("player_" + self.__name + "_score", Element(self.__text, 512, 10, True, True))
+        # render score.
+        text = self.__font.render(str(self.__score), True, (255, 255, 255), None)
+        # retrieve previous x & y coordinates.
+        x, y = self.__game.get_window().get_element("player_" + self.__name + "_score").get_position()
+        # override previous score text.
+        self.__game.get_window().register_element("player_" + self.__name + "_score", Element(text, x, y, True, True))
