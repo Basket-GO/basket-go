@@ -6,6 +6,8 @@ class BallRespawnEventListener(KeyPressedEventListener):
         super().__init__(key_pressed)
     
     def onKeyPressed(self, game):
+        if not game.has_thread("b_thread"):
+            return
         # retrieve the ongoing thread
         thread = game.get_thread("b_thread")
         # check if there's an ongoing thread
