@@ -3,7 +3,7 @@ import random
 import components.button as button
 import sys
 from game import Game
-import time
+
 
 from interface.leaderboard import Leaderboard
 leaderboard = Leaderboard("./utils/leaderboard.txt")
@@ -67,7 +67,7 @@ key_text = ''
 input_rect2 = pygame.Rect(530, 260, 500, 30)
 input_rect = pygame.Rect(450, 320, 500, 30)
 text_on_user = "Maximum 6 characters"
-text_on_key = "Maximum 1 characters"
+text_on_key = ""
 # color_active stores color(lightskyblue3) which
 # gets active when input box is clicked by user
 color_active = pygame.Color((60, 60, 60))
@@ -84,7 +84,22 @@ cursor_init = pygame.image.load(cursor).convert_alpha()
 pygame.mouse.set_visible(False)
 dict_pos = {"main1": [(513, 438), (513, 547)], "main2": [(58, 593), (887, 589), (971, 590)],
             "option": [(320, 550), (712, 550)], "leaderboard": [(513, 547)], "shop": [], }
-
+# set sound
+sound_img = pygame.image.load('./img/option_menu/buttons/sound_btn.png')
+sound_img_hov = pygame.image.load(
+    './img/option_menu/buttons/sound_btn_hov.png')
+sound_minus_img = pygame.image.load(
+    './img/option_menu/buttons/sound_minus_btn.png')
+sound_minus_img_hov = pygame.image.load(
+    './img/option_menu/buttons/sound_minus_btn_hov.png')
+sound_btn = button.Button(490, 428, sound_img, sound_img_hov, 0.5)
+sound2_btn = button.Button(780, 428, sound_img, sound_img_hov, 0.5)
+sound_minus_btn = button.Button(
+    305, 438, sound_minus_img, sound_minus_img_hov, 0.5)
+sound2_minus_btn = button.Button(
+    595, 438, sound_minus_img, sound_minus_img_hov, 0.5)
+sound = pygame.Rect(337, 434, 75, 20)
+sound2 = pygame.Rect(627, 434, 75, 20)
 while is_running:
     MOUSE_POS = pygame.mouse.get_pos()
     x, y = pygame.mouse.get_pos()
@@ -107,26 +122,23 @@ while is_running:
             Leader = True
         if shop_btn.draw_and_clicked(window, event):
             pass
-    # if start_button was clicked or selected and press enter
-    if start_button.draw_and_clicked(window, event) == True:
-        image = ["flame", "mountains", "pink",
-                 "basket-ball", "smile", "military"]
-        i = random.randint(0, 5)
-        # create a new instance of the Game.
-        game = Game(window, "img/", image[i], None, [(152, 255, 152), (135, 206, 235),
-                    (255, 105, 180), (255, 215, 0), (64, 224, 208), (218, 112, 214)])
-        # register dummy player.
-        game.register_player("Yanis", 0)
-        game.register_player("Test", 0)
-        # setup the game.
-        game.setup()
-    # if exit_button was clicked or selected and press enter
-    if exit_button.draw_and_clicked(window, event) == True:
-        pygame.quit()
-        window.blit(cursor_init, (x, y))
-        sys.exit()
-    for event in pygame.event.get():
-        if event.type == pygame.QUIT:
+        # if start_button was clicked or selected and press enter
+        if start_button.draw_and_clicked(window, event) == True:
+            image = ["flame", "mountains", "pink",
+                     "basket-ball", "smile", "military"]
+            image_terrain = ["IMG", "IMG2", "IMG3"]
+            i_bis = random.randint(0, 2)
+            i = random.randint(0, 5)
+            # create a new instance of the Game.
+            # create a new instance of the Game.
+            game = Game(window, "img/", image[i], image_terrain[i_bis], None, [
+                        (152, 255, 152), (135, 206, 235), (255, 105, 180), (255, 215, 0), (64, 224, 208), (218, 112, 214)])
+            # register dummy player.
+            game.register_player(user_text, 0)
+            game.register_player("Test", 0)
+            # setup the game.
+            game.setup()
+        if exit_button.draw_and_clicked(window, event):
             pygame.quit()
             sys.exit()
         if gear_btn.draw_and_clicked(window, event):
@@ -191,14 +203,34 @@ while is_running:
                 menu_state = "main"
             if save_btn.draw_and_clicked(window, event):
                 menu_state = "main"
-
-            window.blit(cursor_init, (x, y))
+                sound_music = ((sound.w * 2)/3)/100
+                sound_effect = ((sound2.w * 2)/3)/100
+                print(sound_music, sound_effect)
+                # option(key_text,user_text,sound_music,sound_effect)
+            if sound_btn.draw_and_clicked(window, event):
+                if 150 > sound.w >= 0:
+                    sound.w += 15
+                print(sound.w)
+            if sound_minus_btn.draw_and_clicked(window, event):
+                if 150 >= sound.w >= 10:
+                    sound.w -= 15
+                print(sound.w)
+            if sound2_btn.draw_and_clicked(window, event):
+                if 150 > sound2.w >= 0:
+                    sound2.w += 15
+                print(sound2.w)
+            if sound2_minus_btn.draw_and_clicked(window, event):
+                if 150 >= sound2.w >= 10:
+                    sound2.w -= 15
+                print(sound2.w)
+            pygame.draw.rect(window, (255, 255, 255), sound)
+            pygame.draw.rect(window, (255, 255, 255), sound2)
             # draw rectangle and argument passed which should
             # be on screen
             pygame.draw.rect(window, color, input_rect)
             pygame.draw.rect(window, color2, input_rect2)
             text_surface = base_font.render(user_text, True, (255, 255, 255))
-            text_surface2 = base_font.render(key_text, True, (255, 255, 255))
+            text_surface2 = base_font.render("R", True, (255, 255, 255))
             # render at position stated in arguments
             window.blit(text_surface, (input_rect.x+5, input_rect.y+3))
             window.blit(text_surface2, (input_rect2.x+90, input_rect2.y+3))

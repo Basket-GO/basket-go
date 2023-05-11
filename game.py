@@ -16,11 +16,11 @@ from events.ball_respawn_event_listener import BallRespawnEventListener
 
 
 class Game():
-    def __init__(self, screen: pygame.Surface, img_location: str, img_name: str, sound_location: str, available_colors: list) -> None:
-        # init available colors for the players.
-        self.__available_colors = available_colors
-        # init players index. (used for turn by turn games)
+    def __init__(self, screen: pygame.Surface, img_location: str, img_name: str, img_terrain: str, sound_location: str, available_colors: list) -> None:
         self.__players_index = 0
+        # init players index. (used for turn by turn games)
+        self.__available_colors = available_colors
+        # init available colors for the players.
         # get the actual display screen.
         self.__screen = screen
         # set up playing players.
@@ -35,15 +35,11 @@ class Game():
         self.fps = 150
         # get the actual basket ball field.
         field = pygame.image.load(
-            img_location + "basket-ball/terrain_basket_public.png")
-        field = pygame.transform.scale(field, (1024, 640))
-        field2 = pygame.image.load(
-            img_location + "basket-ball/terrain_basket_public_2.png")
-        field2 = pygame.transform.scale(field2, (1024, 640))
-        panier = pygame.image.load(img_location + "basket-ball/panier.png")
-        panier = pygame.transform.scale(panier, (100, 73))
+            img_location + "basket-ball/" + img_terrain+".jpg")
+        spec = pygame.image.load(img_location + "basket-ball/" + "spec.png")
+        panier = pygame.image.load(
+            img_location + "basket-ball/" + "panier.png")
         self.field = field
-        self.field2 = field2
         # get the cursor
         cursor_init = pygame.image.load("img/cursor.png").convert_alpha()
         self.cursor = cursor_init
@@ -54,7 +50,8 @@ class Game():
         placeholder_ball = pygame.image.load(
             img_location + "basket-ball/" + img_name+"-placeholder.png")
         # register the field without public.
-        self.get_window().register_element("field", Element(field2, 0, 0))
+        self.get_window().register_element("field", Element(field, 0, 0))
+        # self.get_window().register_element("spec", Element(spec, 0, 0))
         # register the ball.
         self.get_window().register_element("ball", Ball(ball, 170, 450))
         # register the placeholder ball.
