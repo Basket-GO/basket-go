@@ -41,3 +41,4 @@ class Window():
         :return: the game elements.
         """
         return self.__elements
+    
